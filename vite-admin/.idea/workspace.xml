@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="83f06295-6075-498f-8619-f3fa262fd16d" name="默认的" comment="">
+      <change beforePath="$PROJECT_DIR$/../backend/app/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/app/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/poetry.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/poetry.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/product/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/product/serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/product/serializer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/product/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/product/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/pyproject.toml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1nKSdJ4K87Vy5BTZsXLP5ysDEPg" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="83f06295-6075-498f-8619-f3fa262fd16d" name="默认的" comment="" />
+      <created>1611137375840</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611137375840</updated>
+      <workItem from="1611137377545" duration="1712000" />
+      <workItem from="1614847906641" duration="122000" />
+      <workItem from="1614848041585" duration="134000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

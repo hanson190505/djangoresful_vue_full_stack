@@ -14,18 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-from product.views import CategoryViewSet
+from product.views import CategoryViewSet, ProductViewSet
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from upload.views import UploadFile, ImageViewSet
 from user.views import UserView, UserRegisterView
 
 router = routers.DefaultRouter()
 router.register('category', CategoryViewSet)
+router.register('product', ProductViewSet)
+router.register('image', ImageViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api/user/', UserView.as_view(), name='users'),
-    path('api/register/', UserRegisterView.as_view(), name='register'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('api/v1/', include(router.urls)),
+    path('api/v1/upload', UploadFile.as_view(), name='upload'),
+    path('api/v1/user/', UserView.as_view(), name='users'),
+    path('api/v1/register/', UserRegisterView.as_view(), name='register'),
+    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
 ]

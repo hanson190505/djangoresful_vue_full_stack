@@ -1,0 +1,31 @@
+{
+  "name": "vite-admin",
+  "version": "0.0.0",
+  "description": "hanson",
+  "license": "",
+  "scripts": {
+    "serve": "vite --mode=development",
+    "dev": "vite",
+    "build": "vuedx-typecheck . && vite builder"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.1-beta.27",
+    "lodash-es": "^4.17.21",
+    "vue": "^3.0.7",
+    "vue-router": "^4.0.4"
+  },
+  "devDependencies": {
+    "@rollup/plugin-dynamic-import-vars": "^1.1.1",
+    "@types/lodash-es": "^4.17.4",
+    "@types/node": "14.14.20",
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.7",
+    "@vuedx/typecheck": "^0.4.1",
+    "@vuedx/typescript-plugin-vue": "^0.4.1",
+    "dotenv": "^8.2.0",
+    "nodemon": "1.19.4",
+    "typescript": "^4.2.2",
+    "vite": "^2.0.5"
+  }
+}
