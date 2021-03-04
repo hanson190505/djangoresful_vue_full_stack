@@ -1,14 +1,12 @@
-import { defHttp } from "@/utils/http/axios";
-import { IProduct } from "@/api/products/model/products";
+import { defHttp } from '@/utils/http/axios';
+import { IProduct } from '@/api/products/model/products';
 
 enum Api {
-  Product= '/product/'
+  Product = '/product/',
 }
 
-export function getProductsAPI(): Promise<IProduct>{
-  return defHttp.request(
-    {
-      url:Api.Product,
-    }
-  )
+export function getProductsAPI() {
+  return defHttp.request<IProduct>({
+    url: Api.Product,
+  });
 }

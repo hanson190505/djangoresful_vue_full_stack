@@ -1,15 +1,19 @@
-import { ICreateAxiosOptions, IRequestOptions, IResult } from "@/utils/http/axios/types";
-import { VAxios } from "@/utils/http/axios/Axios";
-import { deepMerge, setObjToUrlParams } from "@/utils";
-import { useGlobSetting } from "@/hooks/setting";
-import { ContentTypeEnum, RequestEnum, ResultEnum } from "@/enums/httpEnum";
-import { AxiosTransform } from "@/utils/http/axios/axiosTransform";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
-import { isString } from "@/utils/is";
-import { createNow, formatRequestDate } from "@/utils/http/axios/helper";
+import {
+  ICreateAxiosOptions,
+  IRequestOptions,
+  IResult,
+} from '@/utils/http/axios/types';
+import { VAxios } from '@/utils/http/axios/Axios';
+import { deepMerge, setObjToUrlParams } from '@/utils';
+import { useGlobSetting } from '@/hooks/setting';
+import { ContentTypeEnum, RequestEnum, ResultEnum } from '@/enums/httpEnum';
+import { AxiosTransform } from '@/utils/http/axios/axiosTransform';
+import type { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { isString } from '@/utils/is';
+import { createNow, formatRequestDate } from '@/utils/http/axios/helper';
 // import { errorResult } from "@/utils/http/axios/const";
-const globSetting =  useGlobSetting()
-const prefix =globSetting.urlPrefix
+const globSetting = useGlobSetting();
+const prefix = globSetting.urlPrefix;
 
 const transform: AxiosTransform = {
   /**
@@ -17,23 +21,34 @@ const transform: AxiosTransform = {
    * @param res-AxiosResponse
    * @param options- IRequestOptions
    */
-  transformRequestData:(res: AxiosResponse<IResult>, options: IRequestOptions) => {
-    const {isTransformRequestResult} = options
-    if (!isTransformRequestResult){
-      return res.data
+  transformRequestData: (
+    res: AxiosResponse<IResult>,
+    options: IRequestOptions
+  ) => {
+    const { isTransformRequestResult } = options;
+    if (!isTransformRequestResult) {
+      return res.data;
     }
     // const {data} = res
     // if (!data){
     //   return errorResult
     // }
-    const {status, data, statusText} = res
+    const { status, data, statusText } = res;
     if (statusText === ResultEnum.SUCCESS) {
-      return data
+      return data;
     }
-    return res.data
+    return res.data;
   },
   beforeRequestHook(config: AxiosRequestConfig, options: IRequestOptions) {
-    const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true } = options;
+    // TODO:token处理
+    config.headers = { Authorization: 'token' };
+    const {
+      apiUrl,
+      joinPrefix,
+      joinParamsToUrl,
+      formatDate,
+      joinTime = true,
+    } = options;
     if (joinPrefix) {
       config.url = `${prefix}${config.url}`;
     }
@@ -65,17 +80,17 @@ const transform: AxiosTransform = {
       }
     }
     return config;
-  }
-}
+  },
+};
 
-function createAxios(opt?: Partial<ICreateAxiosOptions>){
+function createAxios(opt?: Partial<ICreateAxiosOptions>) {
   return new VAxios(
     deepMerge(
       {
         timeout: 10 * 1000,
         prefixUrl: prefix,
         headers: {
-          'Content-type': ContentTypeEnum.FORM_URLENCODED
+          'Content-type': ContentTypeEnum.FORM_URLENCODED,
         },
         transform,
         requestOptions: {
@@ -93,10 +108,12 @@ function createAxios(opt?: Partial<ICreateAxiosOptions>){
           apiUrl: globSetting.apiUrl,
           //  是否加入时间戳
           joinTime: true,
-        }
+          //忽略重复请求
+          ignoreCancelToken: true,
+        },
       },
       opt || {}
     )
-  )
+  );
 }
-export const defHttp = createAxios()
+export const defHttp = createAxios();

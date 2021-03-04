@@ -1,12 +1,12 @@
 import { defHttp } from '@/utils/http/axios';
 
-interface IUpload {
+interface IUpload extends IMixinModel {
   url: string;
-  owner: string;
+  owner?: string;
 }
 
 export function getProductsAPI(): Promise<IUpload> {
   return defHttp.request({
-    url: '/upload/',
+    url: '/image/',
   });
 }

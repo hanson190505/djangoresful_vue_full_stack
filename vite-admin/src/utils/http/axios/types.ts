@@ -1,5 +1,5 @@
-import type { AxiosRequestConfig } from "axios";
-import { AxiosTransform } from "@/utils/http/axios/axiosTransform";
+import type { AxiosRequestConfig } from 'axios';
+import { AxiosTransform } from '@/utils/http/axios/axiosTransform';
 
 export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 
@@ -21,12 +21,13 @@ export interface IRequestOptions {
   errorMessageMode?: ErrorMessageMode;
   // 是否加入时间戳
   joinTime?: boolean;
+  ignoreCancelToken?: boolean;
 }
 
 export interface ICreateAxiosOptions extends AxiosRequestConfig {
-  prefixUrl?: string
-  transform?: AxiosTransform
-  requestOptions?: IRequestOptions
+  prefixUrl?: string;
+  transform?: AxiosTransform;
+  requestOptions?: IRequestOptions;
 }
 
 export interface IResult<T = any> {
