@@ -20,11 +20,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
+import { useGlobSetting } from '@/hooks/setting/index';
 
 export default defineComponent({
   setup() {
-    const env = import.meta.env;
+    const env = useGlobSetting();
+    const uploadURL = ref(env.apiUrl + env.urlPrefix + env.uploadUrl);
     const fileList = reactive([]);
     const handlePreview = (file, fileList) => {
       console.log(file, fileList);
@@ -40,6 +42,7 @@ export default defineComponent({
       handleRemove,
       handleExceed,
       fileList,
+      uploadURL,
     };
   },
 });

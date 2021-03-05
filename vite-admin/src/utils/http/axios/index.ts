@@ -11,9 +11,12 @@ import { AxiosTransform } from '@/utils/http/axios/axiosTransform';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { isString } from '@/utils/is';
 import { createNow, formatRequestDate } from '@/utils/http/axios/helper';
+import { useMessage } from '@/hooks/web/useMessage';
+import {} from 'qs';
 // import { errorResult } from "@/utils/http/axios/const";
 const globSetting = useGlobSetting();
 const prefix = globSetting.urlPrefix;
+const { createErrorMessage } = useMessage();
 
 const transform: AxiosTransform = {
   /**
@@ -40,8 +43,6 @@ const transform: AxiosTransform = {
     return res.data;
   },
   beforeRequestHook(config: AxiosRequestConfig, options: IRequestOptions) {
-    // TODO:token处理
-    config.headers = { Authorization: 'token' };
     const {
       apiUrl,
       joinPrefix,
@@ -55,31 +56,64 @@ const transform: AxiosTransform = {
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }
-    const params = config.params || {};
-    if (config.method?.toUpperCase() === RequestEnum.GET) {
-      if (!isString(params)) {
-        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
-        config.params = Object.assign(params || {}, createNow(joinTime, false));
-      } else {
-        // 兼容restful风格
-        config.url = config.url + params + `${createNow(joinTime, true)}`;
-        config.params = undefined;
-      }
-    } else {
-      if (!isString(params)) {
-        formatDate && formatRequestDate(params);
-        config.data = params;
-        config.params = undefined;
-        if (joinParamsToUrl) {
-          config.url = setObjToUrlParams(config.url as string, config.data);
-        }
-      } else {
-        // 兼容restful风格
-        config.url = config.url + params;
-        config.params = undefined;
-      }
-    }
+    // const params = config.params || {};
+    // if (config.method?.toUpperCase() === RequestEnum.GET) {
+    //   if (!isString(params)) {
+    //     // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+    //     config.params = Object.assign(params || {}, createNow(joinTime, false));
+    //   } else {
+    //     // 兼容restful风格
+    //     config.url = config.url + params + `${createNow(joinTime, true)}`;
+    //     config.params = undefined;
+    //   }
+    // } else {
+    //   if (!isString(params)) {
+    //     formatDate && formatRequestDate(params);
+    //     config.data = params;
+    //     config.params = undefined;
+    //     if (joinParamsToUrl) {
+    //       config.url = setObjToUrlParams(config.url as string, config.data);
+    //     }
+    //   } else {
+    //     // 兼容restful风格
+    //     config.url = config.url + params;
+    //     config.params = undefined;
+    //   }
+    // }
     return config;
+  },
+  requestInterceptors: (config) => {
+    //TODO:token处理
+    return config;
+  },
+  /**
+   * @description: 响应错误处理
+   */
+  responseInterceptorsCatch: (error: any) => {
+    const { response, message } = error || {};
+    // console.log(response, message);
+    const code: number = response?.status;
+    if (!response) {
+      createErrorMessage('服务器异常');
+    }
+    try {
+      switch (code) {
+        case 400:
+          createErrorMessage('请求错误!');
+          break;
+        case 401:
+          createErrorMessage('账号或密码错误!');
+          break;
+        case 404:
+          createErrorMessage('请求的页面未找到!');
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+    return Promise.reject(error);
   },
 };
 
@@ -90,7 +124,7 @@ function createAxios(opt?: Partial<ICreateAxiosOptions>) {
         timeout: 10 * 1000,
         prefixUrl: prefix,
         headers: {
-          'Content-type': ContentTypeEnum.FORM_URLENCODED,
+          'Content-type': ContentTypeEnum.JSON,
         },
         transform,
         requestOptions: {

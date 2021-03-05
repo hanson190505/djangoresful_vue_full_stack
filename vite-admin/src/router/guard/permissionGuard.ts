@@ -1,6 +1,7 @@
 import { Router } from 'vue-router';
 import { getRoutes } from '@/router/routes';
 import { dynamicImport, dynamicViewsModules } from '../helper/roureHelper';
+import { store } from '@/store';
 
 export function permissionGuard(router: Router) {
   router.beforeEach(async (to, from) => {

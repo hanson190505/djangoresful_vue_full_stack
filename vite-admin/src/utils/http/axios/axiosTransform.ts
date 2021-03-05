@@ -15,5 +15,5 @@ export abstract class AxiosTransform {
   requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig;
   responseInterceptors?: () => void;
   requestInterceptorsCatch?: () => void;
-  responseInterceptorsCatch?: () => void;
+  responseInterceptorsCatch?: (error: Error) => void;
 }

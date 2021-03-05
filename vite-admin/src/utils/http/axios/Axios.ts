@@ -3,12 +3,14 @@ import {
   ICreateAxiosOptions,
   IRequestOptions,
   IResult,
+  UploadFileParams,
 } from '@/utils/http/axios/types';
 import axios from 'axios';
 import { cloneDeep } from 'lodash-es';
 import { isFunction } from '@/utils/is';
 import { errorResult } from '@/utils/http/axios/const';
 import { AxiosCanceler } from './axiosCancel';
+import { ContentTypeEnum } from '@/enums/httpEnum';
 
 export class VAxios {
   private axiosInstance: AxiosInstance;
@@ -51,7 +53,7 @@ export class VAxios {
     if (!transform) {
       return;
     }
-    const { requestInterceptors } = transform;
+    const { requestInterceptors, responseInterceptorsCatch } = transform;
     const axiosCanceler = new AxiosCanceler();
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
@@ -71,6 +73,12 @@ export class VAxios {
       },
       undefined
     );
+    responseInterceptorsCatch &&
+      isFunction(responseInterceptorsCatch) &&
+      this.axiosInstance.interceptors.response.use(
+        undefined,
+        responseInterceptorsCatch
+      );
   }
 
   get<T = any>(
