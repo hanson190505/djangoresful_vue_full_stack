@@ -5,7 +5,7 @@
     </el-aside>
     <el-container>
       <el-header :style="headerStyle">
-        <menu-header> </menu-header>
+        <menu-header></menu-header>
       </el-header>
       <el-main>
         <el-tabs
@@ -18,7 +18,7 @@
           <el-tab-pane
             v-for="item in panes.tabs"
             :key="item.name"
-            :label="item.name"
+            :label="item.meta.title"
             :name="item.name"
           >
             <!-- {{ item.name }} -->
@@ -31,57 +31,75 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
-import SideMenu from '@/components/basicLayout/sideMenu.vue';
-import MenuHeader from '@/components/basicLayout/menuHeader.vue';
+import { defineComponent, ref, reactive, computed } from 'vue';
+import SideMenu from './sideMenu.vue';
+import menuHeader from './header.vue';
 import { menuStyle } from '@/style';
-import { RouteRecordRaw, useRoute, useRouter } from 'vue-router';
-import { IMenu } from '@/router/types';
+import { useRouter } from 'vue-router';
+import { IAppRouteRecordRaw, IMenu } from '@/router/types';
+import {
+  getTab,
+  setTab,
+  setEditTab,
+  getEditTab,
+  removeEditTab,
+} from './layout';
 
 export default defineComponent({
-  name: 'basicLayout',
-  components: { MenuHeader, SideMenu },
+  name: 'Layout',
+  components: { menuHeader, SideMenu },
   setup() {
     const { backgroundColor, color } = menuStyle;
-    const editTabValue = ref('');
-    var panes = reactive({
-      tabs: [],
+    let editTabValue = ref(getEditTab());
+    // let panes = getTab() as IAppRouteRecordRaw[];
+    // let panes = reactive(getTab() as IAppRouteRecordRaw[]);
+    let panes = reactive({
+      tabs: getTab() as IAppRouteRecordRaw[],
     });
     const currentComp = ref('');
     const router = useRouter();
-    //TODO:刷新保留tab
-    const addTab = (route: RouteRecordRaw) => {
+
+    const addTab = (route: IAppRouteRecordRaw) => {
+      // editTabValue.value = route.name as string;
+      setEditTab(route.name);
       editTabValue.value = route.name;
       if (panes.tabs.length > 0) {
-        let tempList = panes.tabs.filter((item: IMenu) => {
+        let tempList = panes.tabs.filter((item: IAppRouteRecordRaw) => {
           return item.name === route.name;
         });
         if (tempList.length === 0) {
           panes.tabs.push(route);
+          setTab(panes.tabs);
         }
       } else {
         panes.tabs.push(route);
+        setTab(panes.tabs);
       }
     };
     const removeTab = (targetName: string) => {
       if (targetName === editTabValue.value) {
-        panes.tabs.forEach((item: IMenu, index) => {
+        panes.tabs.forEach((item: IAppRouteRecordRaw, index) => {
           if (item.name === targetName) {
             let panesTab = panes.tabs[index + 1] || panes.tabs[index - 1];
             if (panesTab) {
               editTabValue.value = panesTab.name;
               router.push({ name: panesTab.name });
+              setEditTab(panesTab.name);
             }
           }
         });
       }
-      panes.tabs = panes.tabs.filter((item: IMenu) => item.name !== targetName);
+      panes.tabs = panes.tabs.filter(
+        (item: IAppRouteRecordRaw) => item.name !== targetName
+      );
+      setTab(panes.tabs);
       if (panes.tabs.length === 0) {
         router.push({ path: '/' });
       }
     };
     const tabClick = (tab) => {
       router.push({ name: tab.props.name });
+      setEditTab(tab.props.name);
     };
     const headerStyle = {
       backgroundColor: backgroundColor,

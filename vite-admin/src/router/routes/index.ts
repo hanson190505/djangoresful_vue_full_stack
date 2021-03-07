@@ -1,19 +1,35 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { IMenu } from '@/router/types';
+import { IMenu, IAppRouteRecordRaw } from '@/router/types';
 import { RoleEnum } from '@/enums/roleEnum';
 import { dynamicImport, dynamicViewsModules } from '../helper/roureHelper';
 
-const add = 'addProduct';
+// export const myRoutes: IAppRouteRecordRaw[] = [
+//   {
+//     name: 'dashboard',
+//     path: '/dashboard',
+//     component: dynamicImport(dynamicViewsModules, 'dashboard'),
+//     meta: {
+//       ignoreAuth: false,
+//     },
+//   },
+// ];
 export const baseMenu: IMenu[] = [
   {
     name: 'Dashboard',
     icon: 'el-icon-s-home',
     roles: RoleEnum.GENERAL,
+    meta: {
+      title: '仪表盘',
+    },
     route: [
       {
         path: '/dashboard',
         name: 'dashboard',
-        component: () => import(`@/views/dashboard/dashboard.vue`),
+        meta: {
+          ignoreAuth: false,
+          title: '仪表盘',
+        },
+        component: dynamicImport(dynamicViewsModules, 'dashboard'),
       },
     ],
   },
@@ -21,15 +37,26 @@ export const baseMenu: IMenu[] = [
     name: 'Product',
     icon: 'el-icon-s-home',
     roles: RoleEnum.GENERAL,
+    meta: {
+      title: '产品管理',
+    },
     route: [
       {
         path: '/product',
         name: 'product',
-        component: () => import('@/views/products/product.vue'),
+        meta: {
+          ignoreAuth: false,
+          title: '产品列表',
+        },
+        component: dynamicImport(dynamicViewsModules, 'product'),
       },
       {
         path: '/addProduct',
         name: 'addProduct',
+        meta: {
+          ignoreAuth: false,
+          title: '新增产品',
+        },
         component: dynamicImport(dynamicViewsModules, 'addProduct'),
       },
     ],
@@ -38,29 +65,50 @@ export const baseMenu: IMenu[] = [
     name: 'Upload',
     icon: 'el-icon-upload',
     roles: RoleEnum.GENERAL,
+    meta: {
+      title: '图片管理',
+    },
     route: [
       {
         path: '/upload',
         name: 'upload',
+        meta: {
+          ignoreAuth: false,
+          title: '产品上传',
+        },
         component: dynamicImport(dynamicViewsModules, 'upload'),
       },
     ],
   },
 ];
 
-export function getRoutes(role: string): RouteRecordRaw[] {
+// export function getRoutes(role: string): RouteRecordRaw[] {
+//   let tempList: RouteRecordRaw[] = [];
+//   baseMenu.forEach((el) => {
+//     if (el.roles === role) {
+//       tempList.push(...el.route);
+//     }
+//   });
+//   return tempList;
+// }
+
+export function getRoutes(): RouteRecordRaw[] {
   let tempList: RouteRecordRaw[] = [];
   baseMenu.forEach((el) => {
-    if (el.roles === role) {
-      tempList.push(...el.route);
-    }
+    // TODO
+    tempList.push(...el.route);
   });
   return tempList;
 }
 
+const routeList = getRoutes();
+
 const loginRoute: RouteRecordRaw = {
   name: 'login',
   path: '/login',
+  meta: {
+    ignoreAuth: true,
+  },
   component: () => import('@/views/login/login.vue'),
 };
 
@@ -71,7 +119,9 @@ const rootRoute: RouteRecordRaw = {
   meta: {
     title: 'Home',
     icon: 'el-icon-s-home',
+    ignoreAuth: true,
   },
+  children: routeList,
 };
 
 export const routes = [loginRoute, rootRoute];

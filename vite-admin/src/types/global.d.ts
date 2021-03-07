@@ -16,7 +16,7 @@ declare interface IMixinModel {
   update_at?: Date;
   delete_at?: Date;
   is_delete?: boolean;
-  more?: any;
+  more?: { [k: string]: string };
 }
 
 declare function parseInt(s: string | number, radix?: number): number;

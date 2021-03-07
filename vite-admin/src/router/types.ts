@@ -1,9 +1,9 @@
-import { RoleEnum } from "@/enums/roleEnum";
-import type { RouteRecordRaw } from "vue-router";
-import { Component } from "@/components/types";
+import { RoleEnum } from '@/enums/roleEnum';
+import type { RouteRecordRaw } from 'vue-router';
+import { Component } from '@/components/types';
 
 export interface IRouteMeta {
-  title: string;
+  title?: string;
   ignoreAuth?: boolean;
   roles?: RoleEnum[];
   ignoreKeepAlive?: boolean;
@@ -20,7 +20,7 @@ export interface IRouteMeta {
 }
 
 // @ts-ignore
-export interface IAppRouteRecordRaw extends Omit<RouteRecordRaw, "meta"> {
+export interface IAppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {
   name: string;
   meta?: IRouteMeta;
   component?: Component | string;
@@ -31,7 +31,7 @@ export interface IAppRouteRecordRaw extends Omit<RouteRecordRaw, "meta"> {
 }
 
 export interface IMenuTag {
-  type?: "primary" | "error" | "warn" | "success";
+  type?: 'primary' | 'error' | 'warn' | 'success';
   content?: string;
   dot?: boolean;
 }
@@ -40,7 +40,7 @@ export interface IMenu {
   name: string;
   icon?: string;
   disabled?: boolean;
-  route: IAppRouteRecordRaw[];
+  route?: IAppRouteRecordRaw[];
   orderNo?: number;
   roles?: RoleEnum;
   meta?: Partial<IRouteMeta>;

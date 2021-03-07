@@ -17,31 +17,34 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import { ILoginUser } from '@/hooks/user/login';
+import { ILoginUser } from './login';
 import router from '@/router';
 import { useStore } from 'vuex';
 import { key } from '@/store';
 import { defHttp } from '@/utils/http/axios';
+import { useStorage } from '@/hooks/cach/storage';
 
 export default defineComponent({
   name: 'login',
   setup() {
+    const { currentRoute } = router;
     const store = useStore(key);
     const formData = <ILoginUser>reactive({
       username: '',
       password: '',
     });
+    const { setToken } = useStorage();
     async function login(data: ILoginUser) {
       const token = await defHttp.post({
         url: '/token/',
         data: data,
       });
-      if (token) {
-        await router.push({
-          name: 'Root',
-        });
-        store.state.token = token;
-      }
+      const { redirect } = currentRoute.value.query;
+      router.replace({
+        path: (redirect as string) || '/',
+      });
+      store.state.token = token;
+      setToken(token);
     }
     function handleRegister() {}
     function handleLogin() {
@@ -50,9 +53,7 @@ export default defineComponent({
     function handleReset() {
       console.log(store.state.token);
     }
-    function onchange() {
-      router.push('/');
-    }
+    function onchange() {}
     return {
       onchange,
       formData,
