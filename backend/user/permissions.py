@@ -7,7 +7,6 @@ class IsAuthenticated(permissions.BasePermission):
     def has_permission(self, request, view):
         print(request.META.get('HTTP_AUTHORIZATION'))
         print(request.user)
-        print(request.auth)
         # print(request)
         # return True
         jwt = JWTTokenUserAuthentication()

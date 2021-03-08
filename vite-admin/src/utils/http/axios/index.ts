@@ -51,6 +51,7 @@ const transform: AxiosTransform = {
       formatDate,
       joinTime = true,
     } = options;
+    config.path = config.url;
     if (joinPrefix) {
       config.url = `${prefix}${config.url}`;
     }
@@ -84,10 +85,11 @@ const transform: AxiosTransform = {
     return config;
   },
   requestInterceptors: (config) => {
-    //TODO:token处理
-    // const { access, refresh } = (getToken() as IToken) && {};
-    // console.log(access);
-    // config.headers.Authorization = access;
+    if (config.path === '/token/') {
+      return config;
+    }
+    const { access, refresh } = getToken() as IToken;
+    config.headers.Authorization = 'Bearer' + ' ' + access;
     return config;
   },
   /**

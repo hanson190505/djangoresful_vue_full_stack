@@ -16,13 +16,23 @@
       </el-col>
       <el-col :span="6"> </el-col>
       <el-col :span="6"></el-col>
-      <el-col :span="6"></el-col>
+      <el-col :span="6">
+        <el-button type="primary" @click="logout" icon="el-icon-switch-button"
+          >退出</el-button
+        >
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue';
+import { useStorage } from '@/hooks/cach/storage';
+import { removeEditTab, removeTabs } from './layout';
+import { useStore } from 'vuex';
+import { key } from '@/store';
+import { useRouter } from 'vue-router';
+const { removeToken } = useStorage();
 
 export default defineComponent({
   name: 'menuHeader',
@@ -30,9 +40,23 @@ export default defineComponent({
   setup(props, { emit }) {
     const reloadRouteView = inject('changeRouteActive');
     const clearTabs = inject('clearTabs');
+    const route = useRouter();
+    const store = useStore(key);
+    const { currentRoute } = route;
+    const { redirect } = currentRoute.value.query;
+    const logout = () => {
+      removeToken();
+      removeTabs();
+      removeEditTab();
+      store.state.token = {};
+      route.replace({
+        path: (redirect as string) || 'login',
+      });
+    };
     return {
       reloadRouteView,
       clearTabs,
+      logout,
     };
   },
 });
