@@ -1,4 +1,4 @@
-interface IToken {
+export interface IToken {
   access: string;
   refresh: string;
 }

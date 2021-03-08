@@ -16,21 +16,22 @@ Including another URLconf
 from django.urls import path, include
 from product.views import CategoryViewSet, ProductViewSet
 from rest_framework import routers
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenObtainSlidingView
 from upload.views import UploadFile, ImageViewSet
-from user.views import UserView, UserRegisterView
+from user.views import UserView, UserRegisterView, UserViewSet
 
 router = routers.DefaultRouter()
 router.register('category', CategoryViewSet)
 router.register('product', ProductViewSet)
 router.register('image', ImageViewSet)
+router.register('user', UserViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/upload', UploadFile.as_view(), name='upload'),
-    path('api/v1/user/', UserView.as_view(), name='users'),
+    # path('api/v1/login/', LoginView.as_view(), name='login'),
     path('api/v1/register/', UserRegisterView.as_view(), name='register'),
     path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # path('api/v1/token/', TokenObtainSlidingView.as_view(), name='token_obtain_pair'),
     path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
 ]

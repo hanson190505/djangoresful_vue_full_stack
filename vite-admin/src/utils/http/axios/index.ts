@@ -12,11 +12,12 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { isString } from '@/utils/is';
 import { createNow, formatRequestDate } from '@/utils/http/axios/helper';
 import { useMessage } from '@/hooks/web/useMessage';
-import {} from 'qs';
+import { useStorage, IToken } from '@/hooks/cach/storage';
 // import { errorResult } from "@/utils/http/axios/const";
 const globSetting = useGlobSetting();
 const prefix = globSetting.urlPrefix;
 const { createErrorMessage } = useMessage();
+const { getToken } = useStorage();
 
 const transform: AxiosTransform = {
   /**
@@ -84,6 +85,9 @@ const transform: AxiosTransform = {
   },
   requestInterceptors: (config) => {
     //TODO:token处理
+    // const { access, refresh } = (getToken() as IToken) && {};
+    // console.log(access);
+    // config.headers.Authorization = access;
     return config;
   },
   /**

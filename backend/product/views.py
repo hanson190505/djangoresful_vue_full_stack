@@ -2,6 +2,8 @@ from product.models import Category, Product
 from product.serializer import CategorySerializer, ProductSerializer
 from rest_framework.viewsets import ModelViewSet
 
+from user.permissions import IsAuthenticated
+
 
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
@@ -10,8 +12,13 @@ class CategoryViewSet(ModelViewSet):
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
+    permission_classes = [IsAuthenticated,]
     serializer_class = ProductSerializer
 
-    # def create(self, request, *args, **kwargs):
-    #     print(request.data)
-    #     return super().create(self, request, *args, **kwargs)
+    # def get_serializer_class(self, *args, **kwargs):
+    #     print(self.request.user)
+    #     anonymous = self.request.user.is_anonymous
+    #     if anonymous:
+    #         print(123)
+    #         return ProductSerializer
+    #     return ProductSerializer
