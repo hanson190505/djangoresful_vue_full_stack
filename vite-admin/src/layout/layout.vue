@@ -24,26 +24,24 @@
             <!-- {{ item.name }} -->
           </el-tab-pane>
         </el-tabs>
-        <slot name="mainContext"></slot>
+        <router-view v-slot="{ Component }" v-if="isRouteActive">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue';
+import { defineComponent, ref, reactive, nextTick, provide } from 'vue';
 import SideMenu from './sideMenu.vue';
 import menuHeader from './header.vue';
 import { menuStyle } from '@/style';
 import { useRouter } from 'vue-router';
-import { IAppRouteRecordRaw, IMenu } from '@/router/types';
-import {
-  getTab,
-  setTab,
-  setEditTab,
-  getEditTab,
-  removeEditTab,
-} from './layout';
+import { IAppRouteRecordRaw } from '@/router/types';
+import { getTab, setTab, setEditTab, getEditTab, removeTabs } from './layout';
 
 export default defineComponent({
   name: 'Layout',
@@ -51,14 +49,12 @@ export default defineComponent({
   setup() {
     const { backgroundColor, color } = menuStyle;
     let editTabValue = ref(getEditTab());
-    // let panes = getTab() as IAppRouteRecordRaw[];
-    // let panes = reactive(getTab() as IAppRouteRecordRaw[]);
     let panes = reactive({
       tabs: getTab() as IAppRouteRecordRaw[],
     });
     const currentComp = ref('');
     const router = useRouter();
-
+    let isRouteActive = ref(true);
     const addTab = (route: IAppRouteRecordRaw) => {
       // editTabValue.value = route.name as string;
       setEditTab(route.name);
@@ -101,6 +97,21 @@ export default defineComponent({
       router.push({ name: tab.props.name });
       setEditTab(tab.props.name);
     };
+    // 刷新当前页面
+    function changeRouteActive() {
+      isRouteActive.value = false;
+      nextTick().then(() => {
+        isRouteActive.value = true;
+      });
+    }
+    provide('changeRouteActive', changeRouteActive);
+    //清空tabs
+    function clearTabs() {
+      panes.tabs = [];
+      removeTabs();
+      router.push({ path: '/' });
+    }
+    provide('clearTabs', clearTabs);
     const headerStyle = {
       backgroundColor: backgroundColor,
       color: color,
@@ -113,6 +124,9 @@ export default defineComponent({
       tabClick,
       currentComp,
       removeTab,
+      isRouteActive,
+      changeRouteActive,
+      clearTabs,
     };
   },
 });

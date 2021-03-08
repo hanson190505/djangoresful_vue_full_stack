@@ -1,7 +1,7 @@
 <template>
   <layout>
     <template #mainContext>
-      <router-view v-slot="{ Component }">
+      <router-view v-slot="{ Component }" v-if="false">
         <keep-alive>
           <component :is="Component" />
         </keep-alive>

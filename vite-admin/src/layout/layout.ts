@@ -15,6 +15,10 @@ export function getTab(): IAppRouteRecordRaw[] | string | null {
   }
 }
 
+export function removeTabs() {
+  storage.removeItem('tabs');
+}
+
 export function setEditTab(params: string) {
   storage.setItem('editTab', params);
 }

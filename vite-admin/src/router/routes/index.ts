@@ -35,7 +35,7 @@ export const baseMenu: IMenu[] = [
   },
   {
     name: 'Product',
-    icon: 'el-icon-s-home',
+    icon: 'el-icon-s-shop',
     roles: RoleEnum.GENERAL,
     meta: {
       title: '产品管理',
@@ -115,7 +115,8 @@ const loginRoute: RouteRecordRaw = {
 const rootRoute: RouteRecordRaw = {
   path: '/',
   name: 'Root',
-  component: () => import('@/views/home/home.vue'),
+  // redirect: 'dashboard',
+  component: () => import('@/layout/layout.vue'),
   meta: {
     title: 'Home',
     icon: 'el-icon-s-home',
