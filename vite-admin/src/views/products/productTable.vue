@@ -1,47 +1,47 @@
 <template>
   <div>
-    <el-table :data="products" style="width: 100%">
-      <el-table-column prop="id" label="id"> </el-table-column>
-      <el-table-column prop="category_id" label="category_id">
-      </el-table-column>
-      <el-table-column prop="create_time" label="create_time">
-      </el-table-column>
-      <el-table-column prop="update_time" label="update_time">
-      </el-table-column>
-      <!-- <el-table-column label="uid">
+    <el-table :data="products.data" style="width: 100%" v-loading="loading">
+      <el-table-column prop="id" label="id"></el-table-column>
+      <el-table-column prop="name" label="name"> </el-table-column>
+      <el-table-column prop="number" label="number"> </el-table-column>
+      <el-table-column prop="category" label="category_id"> </el-table-column>
+      <el-table-column prop="create_at" label="create_time"> </el-table-column>
+      <el-table-column prop="update_at" label="update_time"> </el-table-column>
+      <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
-          {{ scope.row.detail.uid }}
+          <el-button @click="checkProduct(scope)" type="text" size="small">
+            查看
+          </el-button>
         </template>
       </el-table-column>
-      <el-table-column label="color">
-        <template #default="scope">
-          {{ scope.row.detail.color }}
-        </template>
-      </el-table-column> -->
     </el-table>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted, reactive } from 'vue';
+import { defineComponent, onMounted, reactive, ref } from 'vue';
 import { getProductsAPI } from '@/api/products';
-import { IProduct } from './models';
 
 export default defineComponent({
   name: 'productTable',
   setup() {
-    // const products = async () => {
-    //   return await getProductsAPI();
-    // };
-    let products = <IProduct[]>reactive([]);
-    async function getData() {
-      products = await getProductsAPI();
-    }
-    onMounted(() => {
-      getData();
+    let loading = ref(false);
+    let products = reactive({
+      data: [],
+    });
+    const checkProduct = (row) => {
+      console.log(row);
+    };
+    onMounted(async () => {
+      loading.value = true;
+      const data = await getProductsAPI();
+      loading.value = false;
+      products.data = data;
     });
     return {
       products,
+      loading,
+      checkProduct,
     };
   },
 });

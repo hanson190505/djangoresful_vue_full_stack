@@ -7,7 +7,7 @@
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       multiple
-      :limit="3"
+      :limit="5"
       :on-exceed="handleExceed"
       :file-list="fileList"
     >
@@ -34,9 +34,7 @@ export default defineComponent({
     const handleRemove = (file) => {
       console.log(file);
     };
-    const handleExceed = (files, fileList) => {
-      console.log('hanson');
-    };
+    const handleExceed = (files, fileList) => {};
     return {
       handlePreview,
       handleRemove,

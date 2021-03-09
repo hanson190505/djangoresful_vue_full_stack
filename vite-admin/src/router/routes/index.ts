@@ -115,7 +115,7 @@ const loginRoute: RouteRecordRaw = {
 const rootRoute: RouteRecordRaw = {
   path: '/',
   name: 'Root',
-  // redirect: 'dashboard',
+  redirect: 'dashboard',
   component: () => import('@/layout/layout.vue'),
   meta: {
     title: 'Home',

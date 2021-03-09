@@ -12,7 +12,6 @@
       <el-button type="info" @click="handleReset">重置</el-button>
     </el-form-item>
   </el-form>
-  <el-button @click="onchange">前进</el-button>
 </template>
 
 <script lang="ts">
@@ -53,7 +52,6 @@ export default defineComponent({
     function handleReset() {
       console.log(store.state.token);
     }
-    function onchange() {}
     return {
       onchange,
       formData,
