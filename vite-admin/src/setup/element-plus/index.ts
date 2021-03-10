@@ -22,6 +22,9 @@ import {
   ElTooltip,
   ElLoading,
   ElPagination,
+  ElSelect,
+  ElOption,
+  ElDialog,
 } from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 
@@ -47,6 +50,9 @@ let components = [
   ElCol,
   ElTooltip,
   ElPagination,
+  ElSelect,
+  ElOption,
+  ElDialog,
 ];
 const plugins = [ElLoading];
 

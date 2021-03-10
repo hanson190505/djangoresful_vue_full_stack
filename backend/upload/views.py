@@ -1,19 +1,18 @@
+import os
 import uuid
 
 import oss2
-from django.http import HttpResponse
+from oss2.exceptions import RequestError
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-# TODO:图片上传至阿里云0SS
-
-# 这个是需要用特定的地址，不同地域的服务器地址不同，不要弄错了
 from rest_framework.viewsets import ModelViewSet
-
 from upload.models import Image
 from upload.serializer import ImageSerializer
 
-auth = oss2.Auth('LTAI4Fxw19R4SyZPtHeJ9A2U', 'uOEyNzvbXMtzRCXX5jjaOhxx1kwgPz')
+ACCESS_KEY_ID = os.getenv('ACCESS_KEY_ID')
+ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+auth = oss2.Auth(ACCESS_KEY_ID, ACCESS_SECRET)
 endpoint = 'http://oss-us-west-1.aliyuncs.com'
 bucket = oss2.Bucket(auth, endpoint, 'coteam')  # 项目名称
 base_file_url = 'https://silicone-factory.cn/'
@@ -27,10 +26,11 @@ def percentage(consumed_bytes, total_bytes):
 
 def handle_upload(file, filename):
     file_name = base_file_url + filename
-    res = bucket.put_object(filename, file, progress_callback=percentage)
-    if res.status == 200:
-        return file_name
-    else:
+    try:
+        res = bucket.put_object(filename, file, progress_callback=percentage)
+        if res.status == 200:
+            return file_name
+    except RequestError:
         return False
 
 
@@ -40,8 +40,10 @@ class UploadFile(APIView):
         filename = request.FILES.get('file').name
         file = request.FILES.get('file').read()
         file_url = handle_upload(file, filename)
-        print(file_url)
-        return Response({"msg": "upload successfully"}, template_name='upload.html')
+        if file_url:
+            return Response({"msg": "upload successfully", "file_url": file_url}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"msg": "upload failed"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ImageViewSet(ModelViewSet):

@@ -84,7 +84,7 @@ export const baseMenu: IMenu[] = [
         name: 'upload',
         meta: {
           ignoreAuth: false,
-          title: '产品上传',
+          title: '图片上传',
         },
         component: dynamicImport(dynamicViewsModules, 'upload'),
       },

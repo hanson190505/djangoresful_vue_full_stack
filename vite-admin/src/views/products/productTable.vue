@@ -25,7 +25,7 @@
       @next-click="nextClick"
       background
       layout="prev, pager, next"
-      :total="9"
+      :total="total"
       :page-size="2"
     >
     </el-pagination>
@@ -85,7 +85,7 @@ export default defineComponent({
       const data = await getProductsAPI(page);
       loading.value = false;
       products.data = data;
-      total = data.count;
+      total.value = data.count;
     };
     onMounted(() => {
       getPage(1);
