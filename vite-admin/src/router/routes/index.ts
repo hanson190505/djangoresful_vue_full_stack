@@ -51,6 +51,16 @@ export const baseMenu: IMenu[] = [
         component: dynamicImport(dynamicViewsModules, 'product'),
       },
       {
+        path: '/product/:id',
+        name: 'productDetail',
+        meta: {
+          ignoreAuth: false,
+          title: '产品详情',
+          hideMenu: true,
+        },
+        component: dynamicImport(dynamicViewsModules, 'productDetail'),
+      },
+      {
         path: '/addProduct',
         name: 'addProduct',
         meta: {

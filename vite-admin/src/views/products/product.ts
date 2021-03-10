@@ -5,9 +5,12 @@ enum Api {
   Product = '/product/',
 }
 
-export function getProductsAPI() {
+export function getProductsAPI(page: number) {
   return defHttp.request<IProduct>({
     url: Api.Product,
+    params: {
+      page: page,
+    },
   });
 }
 
@@ -16,5 +19,12 @@ export function postProduct(data: IProduct) {
     url: Api.Product,
     method: 'POST',
     data: data,
+  });
+}
+
+export function getProductById(id: number) {
+  return defHttp.request<IProduct>({
+    url: Api.Product + id,
+    method: 'GET',
   });
 }

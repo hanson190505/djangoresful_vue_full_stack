@@ -25,7 +25,7 @@
           </el-tab-pane>
         </el-tabs>
         <router-view v-slot="{ Component }" v-if="isRouteActive">
-          <keep-alive>
+          <keep-alive exclude="productDetail">
             <component :is="Component" />
           </keep-alive>
         </router-view>
@@ -41,7 +41,14 @@ import menuHeader from './header.vue';
 import { menuStyle } from '@/style';
 import { useRouter } from 'vue-router';
 import { IAppRouteRecordRaw } from '@/router/types';
-import { getTab, setTab, setEditTab, getEditTab, removeTabs } from './layout';
+import {
+  getTab,
+  setTab,
+  setEditTab,
+  getEditTab,
+  removeTabs,
+  handleAddTab,
+} from './layout';
 
 export default defineComponent({
   name: 'Layout',
@@ -55,23 +62,27 @@ export default defineComponent({
     const currentComp = ref('');
     const router = useRouter();
     let isRouteActive = ref(true);
-    const addTab = (route: IAppRouteRecordRaw) => {
-      // editTabValue.value = route.name as string;
-      setEditTab(route.name);
-      editTabValue.value = route.name;
-      if (panes.tabs.length > 0) {
-        let tempList = panes.tabs.filter((item: IAppRouteRecordRaw) => {
-          return item.name === route.name;
-        });
-        if (tempList.length === 0) {
-          panes.tabs.push(route);
-          setTab(panes.tabs);
-        }
-      } else {
-        panes.tabs.push(route);
-        setTab(panes.tabs);
-      }
-    };
+    function addTab(route: IAppRouteRecordRaw) {
+      handleAddTab(route, editTabValue, panes);
+    }
+    provide('addTab', addTab);
+    // const addTab = (route: IAppRouteRecordRaw) => {
+    //   // editTabValue.value = route.name as string;
+    //   setEditTab(route.name);
+    //   editTabValue.value = route.name;
+    //   if (panes.tabs.length > 0) {
+    //     let tempList = panes.tabs.filter((item: IAppRouteRecordRaw) => {
+    //       return item.name === route.name;
+    //     });
+    //     if (tempList.length === 0) {
+    //       panes.tabs.push(route);
+    //       setTab(panes.tabs);
+    //     }
+    //   } else {
+    //     panes.tabs.push(route);
+    //     setTab(panes.tabs);
+    //   }
+    // };
     const removeTab = (targetName: string) => {
       if (targetName === editTabValue.value) {
         panes.tabs.forEach((item: IAppRouteRecordRaw, index) => {

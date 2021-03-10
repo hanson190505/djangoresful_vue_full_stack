@@ -18,40 +18,37 @@
 import { defineComponent, reactive } from 'vue';
 import { ILoginUser } from './login';
 import router from '@/router';
-import { useStore } from 'vuex';
 import { key } from '@/store';
 import { defHttp } from '@/utils/http/axios';
 import { useStorage } from '@/hooks/cach/storage';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'login',
   setup() {
     const { currentRoute } = router;
-    const store = useStore(key);
     const formData = <ILoginUser>reactive({
       username: '',
       password: '',
     });
     const { setToken } = useStorage();
-    async function login(data: ILoginUser) {
-      const token = await defHttp.post({
-        url: '/token/',
-        data: data,
-      });
+    const store = useStore();
+    // async function login() {
+    //   await store;
+    //   const { redirect } = currentRoute.value.query;
+    //   router.replace({
+    //     path: (redirect as string) || '/',
+    //   });
+    // }
+    function handleRegister() {}
+    async function handleLogin() {
+      await store.dispatch('user/login', formData);
       const { redirect } = currentRoute.value.query;
       router.replace({
         path: (redirect as string) || '/',
       });
-      store.state.token = token;
-      setToken(token);
     }
-    function handleRegister() {}
-    function handleLogin() {
-      login(formData);
-    }
-    function handleReset() {
-      console.log(store.state.token);
-    }
+    function handleReset() {}
     return {
       onchange,
       formData,

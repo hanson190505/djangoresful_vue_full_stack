@@ -13,13 +13,15 @@
         <i :class="menu.icon"></i>
         <span>{{ menu.meta.title }}</span>
       </template>
-      <el-menu-item
-        :index="route.name"
-        v-for="route in menu.route"
-        :key="route.name"
-        @click="sendRoute(route)"
-        >{{ route.meta.title }}</el-menu-item
-      >
+      <template v-for="route in menu.route">
+        <el-menu-item
+          v-if="!route.meta.hideMenu"
+          :index="route.name"
+          :key="route.name"
+          @click="sendRoute(route)"
+          >{{ route.meta.title }}</el-menu-item
+        >
+      </template>
     </el-submenu>
   </el-menu>
 </template>

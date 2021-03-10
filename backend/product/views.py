@@ -12,8 +12,9 @@ class CategoryViewSet(ModelViewSet):
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
-    permission_classes = [IsAuthenticated,]
+    # permission_classes = [IsAuthenticated,]
     serializer_class = ProductSerializer
+    # pagination_class =
 
     def get_serializer_class(self):
         print(self.request.user)

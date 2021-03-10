@@ -30,7 +30,6 @@ import { defineComponent, inject } from 'vue';
 import { useStorage } from '@/hooks/cach/storage';
 import { removeEditTab, removeTabs } from './layout';
 import { useStore } from 'vuex';
-import { key } from '@/store';
 import { useRouter } from 'vue-router';
 const { removeToken } = useStorage();
 
@@ -41,14 +40,14 @@ export default defineComponent({
     const reloadRouteView = inject('changeRouteActive');
     const clearTabs = inject('clearTabs');
     const route = useRouter();
-    const store = useStore(key);
+    const store = useStore();
     const { currentRoute } = route;
     const { redirect } = currentRoute.value.query;
     const logout = () => {
       removeToken();
       removeTabs();
       removeEditTab();
-      store.state.token = {};
+      store.state.user.token = {};
       route.replace({
         path: (redirect as string) || 'login',
       });

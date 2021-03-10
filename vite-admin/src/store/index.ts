@@ -1,16 +1,17 @@
-import { InjectionKey } from 'vue';
+import { InjectionKey, App } from 'vue';
 import { createStore, Store } from 'vuex';
+import { UserModule } from './modules/user';
+import { ProductModule } from './modules/product';
 
-export interface State {
-  // access: string;
-  // refresh: string;
-  token: { [k: string]: string };
-}
-
-export const key: InjectionKey<Store<State>> = Symbol();
-
-export const store = createStore<State>({
-  state: {
-    token: {},
+const store = createStore({
+  modules: {
+    user: UserModule,
+    product: ProductModule,
   },
 });
+
+export function setupStore(app: App<Element>) {
+  app.use(store);
+}
+
+export default store;
