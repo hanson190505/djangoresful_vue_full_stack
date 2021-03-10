@@ -33,15 +33,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  inject,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  unref,
-} from 'vue';
+import { defineComponent, inject, onMounted, reactive, ref, unref } from 'vue';
 import { getProductsAPI } from './product';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
