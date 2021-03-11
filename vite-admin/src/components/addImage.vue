@@ -70,7 +70,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, onUnmounted } from 'vue';
-import mySelect from './mySelect.vue';
+import mySelect from './select/mySelect.vue';
 import { IImageModel } from '@/views/upload/image';
 import ManualUplaod from './manualUplaod.vue';
 import { debounce, throttle } from 'lodash-es';

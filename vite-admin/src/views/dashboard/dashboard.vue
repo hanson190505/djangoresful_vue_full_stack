@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h1>Dashboard</h1>
-    <el-button type="primary" @click="open">测试消息提示</el-button>
-  </div>
+  <input type="text" class="json-input" />
+  <button @click="jsonBtnClick" class="json-btn-add">
+    <span>+</span>
+  </button>
 </template>
 
 <script lang="ts">
@@ -23,3 +23,16 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.json-input {
+  border: none;
+  outline: none;
+  border-bottom: 2px solid black;
+}
+.json-btn-add {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+</style>

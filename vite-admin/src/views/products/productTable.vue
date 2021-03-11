@@ -4,6 +4,7 @@
       :data="products.data.results"
       style="width: 100%"
       v-loading="loading"
+      size="mini"
     >
       <el-table-column prop="id" label="id"></el-table-column>
       <el-table-column prop="name" label="name"> </el-table-column>

@@ -5,6 +5,7 @@
       label-width="100px"
       v-loading="loading"
       :rules="rules"
+      size="mini"
     >
       <el-row :gutter="0">
         <el-col :span="8">
@@ -54,6 +55,32 @@
             ></my-select>
           </el-form-item>
         </el-col>
+        <el-col :span="4">
+          <el-form-item label="在产">
+            <my-select
+              v-model="formData.is_product"
+              @receiveSelected="receiveIsProductSelected"
+              :options="'YNoptions'"
+            ></my-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item label="重量(g)">
+            <el-input v-model="formData.weight"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item label="库存">
+            <el-input v-model="formData.stock" placeholder="默认999"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="0">
+        <el-col :span="6">
+          <el-form-item label="尺寸">
+            <el-input v-model="formData.size"></el-input>
+          </el-form-item>
+        </el-col>
         <el-col :span="6">
           <el-form-item label="供应商">
             <el-input v-model="formData.provider"></el-input>
@@ -64,20 +91,25 @@
             <el-input v-model="formData.brand"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="4">
-          <el-form-item label="库存">
-            <el-input v-model="formData.stock" placeholder="默认999"></el-input>
+        <el-col :span="6">
+          <el-form-item label="材质">
+            <multiple-select
+              :optType="'materialOptions'"
+              @receiveSelected="handelMaterialSeleted"
+            ></multiple-select>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-form-item
-          label="其他属性"
-          v-for="(val, key, index) in tempData"
-          :key="index"
-        >
-          <el-col :span="6"> //TODO </el-col>
-          <el-col :span="6"></el-col>
+        <el-form-item label="其他属性">
+          <template v-for="(val, index) in tempData.tempKey" :key="index">
+            <el-col :span="6">
+              <el-input clearable>{{ index }}</el-input>
+            </el-col>
+          </template>
+          <template v-for="(val, index) in tempData.tempValue" :key="index">
+            <el-col :span="6">{{ index }}</el-col>
+          </template>
         </el-form-item>
       </el-row>
       <el-form-item label="图片">
@@ -94,18 +126,20 @@
     </el-form>
   </div>
 </template>
+color json material select mutipl custom_log json
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { IProduct } from './models';
 import { postProduct } from './product';
 import { useMessage } from '@/hooks/web/useMessage';
-import mySelect from '@/components/mySelect.vue';
+import mySelect from '@/components/select/mySelect.vue';
 import AddImage from '@/components/addImage.vue';
 import { IImageModel } from '../upload/image';
+import MultipleSelect from '@/components/select/multipleSelect.vue';
 
 export default defineComponent({
-  components: { mySelect, AddImage },
+  components: { mySelect, AddImage, MultipleSelect },
   name: 'addProduct',
   setup() {
     const { createSuccessMessage, createErrorMessage } = useMessage();
@@ -119,8 +153,8 @@ export default defineComponent({
       name: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
     };
     const tempData = reactive({
-      tempKey: [],
-      tempValue: [],
+      tempKey: ['color', 'weight'],
+      tempValue: ['102c', '10g'],
     });
     const moreMap = new Map();
     function receiveIsNewSelected(params: number) {
@@ -129,8 +163,14 @@ export default defineComponent({
     function receiveIsHotSelected(params: number) {
       formData.is_hot = params;
     }
+    function receiveIsProductSelected(params: number) {
+      formData.is_product = params;
+    }
     function receiveImageData(data: IImageModel) {
       formData.image = data;
+    }
+    function handelMaterialSeleted(params: string[]) {
+      formData.material = params.toString();
     }
     function submit() {
       addImage.value.sendImageData();
@@ -153,6 +193,8 @@ export default defineComponent({
       submitDisabled,
       receiveIsNewSelected,
       receiveIsHotSelected,
+      receiveIsProductSelected,
+      handelMaterialSeleted,
       rules,
       receiveImageData,
       addImage,
