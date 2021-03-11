@@ -32,6 +32,8 @@ def handle_upload(file, filename):
             return file_name
     except RequestError:
         return False
+    # finally:
+    #     return False
 
 
 class UploadFile(APIView):

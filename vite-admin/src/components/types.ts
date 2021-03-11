@@ -4,3 +4,10 @@ export type Component<T extends any = any> =
   | ReturnType<typeof defineComponent>
   | (() => Promise<typeof import('*.vue')>)
   | (() => Promise<T>);
+
+export enum ETag {
+  success = 'success',
+  info = 'info',
+  warning = 'warning',
+  danger = 'danger',
+}

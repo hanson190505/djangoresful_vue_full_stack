@@ -1,3 +1,4 @@
+import { IImageModel } from '@/views/upload/image';
 export interface ICategory extends IMixinModel {
   pid?: ICategory;
   name: string;
@@ -7,8 +8,7 @@ export interface IProduct extends IMixinModel {
   category?: ICategory | string;
   name: string;
   number: string;
-  // image?: { [k: string]: string };
-  image?: [];
+  image?: IImageModel;
   title?: string;
   desc?: string;
   is_new?: number;

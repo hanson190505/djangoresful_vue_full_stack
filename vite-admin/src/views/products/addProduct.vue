@@ -41,6 +41,7 @@
             <my-select
               v-model="formData.is_new"
               @receiveSelected="receiveIsNewSelected"
+              :options="'YNoptions'"
             ></my-select>
           </el-form-item>
         </el-col>
@@ -49,6 +50,7 @@
             <my-select
               v-model="formData.is_hot"
               @receiveSelected="receiveIsHotSelected"
+              :options="'YNoptions'"
             ></my-select>
           </el-form-item>
         </el-col>
@@ -68,24 +70,17 @@
           </el-form-item>
         </el-col>
       </el-row>
-
-      <el-form-item
-        :label="'image' + index"
-        v-for="(image, index) in formData.image"
-        :key="index"
-      >
-        属性:<el-input v-model="image.attr"></el-input> 地址:<el-input
-          v-model="image.addr"
-        ></el-input>
+      <el-form-item label="图片">
+        <add-image
+          @receiveImageData="receiveImageData"
+          ref="addImage"
+        ></add-image>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit" :disabled="submitDisabled"
           >提交</el-button
         >
-        <el-button type="primary" @click="addImage">新增图片</el-button>
       </el-form-item>
-      <upload-image></upload-image>
-      <my-upload></my-upload>
     </el-form>
   </div>
 </template>
@@ -96,16 +91,17 @@ import { IProduct } from './models';
 import { postProduct } from './product';
 import { useMessage } from '@/hooks/web/useMessage';
 import mySelect from '@/components/mySelect.vue';
-import UploadImage from '@/components/uploadImage.vue';
-import MyUpload from '@/components/myUpload.vue';
+import AddImage from '@/components/addImage.vue';
+import { IImageModel } from '../upload/image';
 
 export default defineComponent({
-  components: { mySelect, UploadImage, MyUpload },
+  components: { mySelect, AddImage },
   name: 'addProduct',
   setup() {
     const { createSuccessMessage, createErrorMessage } = useMessage();
     let loading = ref(false);
     let submitDisabled = ref(false);
+    const addImage = ref();
     const formData = <IProduct>reactive({
       image: [],
     });
@@ -118,17 +114,11 @@ export default defineComponent({
     function receiveIsHotSelected(params: number) {
       formData.is_hot = params;
     }
-    const tmpImageData = reactive([
-      {
-        attr: 'image1',
-        addr: 'sdffffffffffffffffffffffwerwer',
-      },
-      {
-        attr: 'imag2',
-        addr: '2weruowiuhklsjfhosd89f7927324h',
-      },
-    ]);
+    function receiveImageData(data: IImageModel) {
+      formData.image = data;
+    }
     function submit() {
+      addImage.value.sendImageData();
       loading.value = true;
       postProduct(formData)
         .then((res) => {
@@ -137,26 +127,20 @@ export default defineComponent({
           createSuccessMessage('提交成功');
         })
         .catch((err) => {
+          loading.value = false;
           createErrorMessage('提交失败');
         });
     }
-    const addImage = () => {
-      console.log(formData);
-      formData.image.push({
-        attr: '',
-        addr: '',
-      });
-    };
     return {
       submit,
       formData,
-      tmpImageData,
-      addImage,
       loading,
       submitDisabled,
       receiveIsNewSelected,
       receiveIsHotSelected,
       rules,
+      receiveImageData,
+      addImage,
     };
   },
 });

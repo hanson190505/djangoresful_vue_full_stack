@@ -1,15 +1,15 @@
 <template>
-  <el-upload
-    action="http://127.0.0.1:8000/api/v1/upload"
-    list-type="picture-card"
-    :auto-upload="true"
-    :on-success="handleUploadSuccess"
-  >
-    <template #default>
-      <i class="el-icon-plus"></i>
-    </template>
-    <template #file="{ file }">
-      <div v-loading="loading">
+  <div>
+    <el-upload
+      action="http://127.0.0.1:8000/api/v1/upload"
+      list-type="picture-card"
+      :auto-upload="true"
+      :on-success="handleUploadSuccess"
+    >
+      <template #default>
+        <i class="el-icon-plus"></i>
+      </template>
+      <template #file="{ file }">
         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
         <span class="el-upload-list__item-actions">
           <span
@@ -33,12 +33,12 @@
             <i class="el-icon-delete"></i>
           </span>
         </span>
-      </div>
-    </template>
-  </el-upload>
-  <el-dialog v-model="dialogVisible">
-    <img width="auto" :src="dialogImageUrl" alt="" />
-  </el-dialog>
+      </template>
+    </el-upload>
+    <el-dialog v-model="dialogVisible">
+      <img width="auto" :src="dialogImageUrl" alt="" />
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts">
