@@ -70,6 +70,16 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row>
+        <el-form-item
+          label="其他属性"
+          v-for="(val, key, index) in tempData"
+          :key="index"
+        >
+          <el-col :span="6"> //TODO </el-col>
+          <el-col :span="6"></el-col>
+        </el-form-item>
+      </el-row>
       <el-form-item label="图片">
         <add-image
           @receiveImageData="receiveImageData"
@@ -103,11 +113,16 @@ export default defineComponent({
     let submitDisabled = ref(false);
     const addImage = ref();
     const formData = <IProduct>reactive({
-      image: [],
+      image: {},
     });
     const rules = {
       name: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
     };
+    const tempData = reactive({
+      tempKey: [],
+      tempValue: [],
+    });
+    const moreMap = new Map();
     function receiveIsNewSelected(params: number) {
       formData.is_new = params;
     }
@@ -141,6 +156,7 @@ export default defineComponent({
       rules,
       receiveImageData,
       addImage,
+      tempData,
     };
   },
 });
