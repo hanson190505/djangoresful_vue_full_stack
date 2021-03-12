@@ -17,5 +17,5 @@ class ProductViewSet(ModelViewSet):
     # pagination_class =
 
     def get_serializer_class(self):
-        print(self.request.user)
+        print(self.queryset.filter(image__has_key='pass'))
         return ProductSerializer

@@ -51,3 +51,4 @@ class UploadFile(APIView):
 class ImageViewSet(ModelViewSet):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
+
