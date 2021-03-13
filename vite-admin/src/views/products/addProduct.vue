@@ -100,18 +100,9 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row>
-        <el-form-item label="其他属性">
-          <template v-for="(val, index) in tempData.tempKey" :key="index">
-            <el-col :span="6">
-              <el-input clearable>{{ index }}</el-input>
-            </el-col>
-          </template>
-          <template v-for="(val, index) in tempData.tempValue" :key="index">
-            <el-col :span="6">{{ index }}</el-col>
-          </template>
-        </el-form-item>
-      </el-row>
+      <el-form-item label="其他属性">
+        <add-more></add-more>
+      </el-form-item>
       <el-form-item label="图片">
         <add-image
           @receiveImageData="receiveImageData"
@@ -119,8 +110,8 @@
         ></add-image>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submit" :disabled="submitDisabled"
-          >提交</el-button
+        <el-button type="primary" @click="submit" :loading="submitLoading"
+          >{{loading?'提交中...':'提交'}}</el-button
         >
       </el-form-item>
     </el-form>
@@ -137,14 +128,15 @@ import mySelect from '@/components/select/mySelect.vue';
 import AddImage from '@/components/addImage.vue';
 import { IImageModel } from '../upload/image';
 import MultipleSelect from '@/components/select/multipleSelect.vue';
+import AddMore from '@/components/addMore/addMore.vue';
 
 export default defineComponent({
-  components: { mySelect, AddImage, MultipleSelect },
+  components: { mySelect, AddImage, MultipleSelect, AddMore },
   name: 'addProduct',
   setup() {
     const { createSuccessMessage, createErrorMessage } = useMessage();
     let loading = ref(false);
-    let submitDisabled = ref(false);
+    let submitLoading = ref(false)
     const addImage = ref();
     const formData = <IProduct>reactive({
       image: {},
@@ -175,14 +167,16 @@ export default defineComponent({
     function submit() {
       addImage.value.sendImageData();
       loading.value = true;
+      submitLoading.value = true
       postProduct(formData)
         .then((res) => {
           loading.value = false;
-          submitDisabled.value = true;
+          submitLoading.value = false;
           createSuccessMessage('提交成功');
         })
         .catch((err) => {
           loading.value = false;
+          submitLoading.value = true
           createErrorMessage('提交失败');
         });
     }
@@ -190,7 +184,6 @@ export default defineComponent({
       submit,
       formData,
       loading,
-      submitDisabled,
       receiveIsNewSelected,
       receiveIsHotSelected,
       receiveIsProductSelected,
@@ -199,6 +192,7 @@ export default defineComponent({
       receiveImageData,
       addImage,
       tempData,
+      submitLoading
     };
   },
 });
