@@ -2,17 +2,14 @@
   <el-upload
     class="upload-demo"
     ref="upload"
-    action="http://127.0.0.1:8000/api/v1/upload"
-    :on-preview="handlePreview"
-    :on-remove="handleRemove"
+    :action="actionURL"
     :on-success="handleSuccess"
     :on-error="handleError"
-    :before-upload="beforeUpload"
-    :on-change="onChange"
-    :file-list="fileList"
+    :on-exceed="handleExceeded"
     multiple
-    :auto-upload="true"
+    :auto-upload="false"
     :limit="5"
+    list-type="picture"
   >
     <template #trigger>
       <el-button size="small" type="primary">选取文件</el-button>
@@ -27,6 +24,7 @@
     <template #tip>
       <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
     </template>
+    
   </el-upload>
 </template>
 
@@ -34,6 +32,8 @@
 import { defineComponent, ref, reactive } from 'vue';
 import { ETag } from '@/components/types';
 import { useMessage } from '@/hooks/web/useMessage';
+import { useGlobSetting } from '@/hooks/setting';
+const globSetting = useGlobSetting();
 
 export default defineComponent({
   name: 'manualUpload',
@@ -42,39 +42,32 @@ export default defineComponent({
     const upload = ref();
     const fileList = reactive([]);
     const { createErrorMessage, createSuccessMessage } = useMessage();
+    const actionURL = globSetting.apiUrl+globSetting.urlPrefix+'/upload'
     function submitUpload() {
       upload.value.submit();
     }
-    function handlePreview() {}
-    function handleRemove() {}
-    function beforeUpload(file: any) {
-      // console.log(file);
-    }
-    function onChange(file, fileList) {
-      // console.log(file);
-      // console.log(fileList);
-    }
     function handleSuccess(res: any, file) {
-      // console.log(res);
       createSuccessMessage('上传成功');
       emit('receiveFileUrl', {
         url: res.file_url,
         uploadState: ETag.success,
+        tempUrl:window.URL.createObjectURL(file.raw)
       });
     }
     function handleError(file: any) {
       createErrorMessage(`${file.name}上传失败`);
     }
+    function handleExceeded() {
+      createErrorMessage('最多同时上传五张图片!')
+    }
     return {
       submitUpload,
-      handlePreview,
-      handleRemove,
       fileList,
       upload,
       handleSuccess,
       handleError,
-      beforeUpload,
-      onChange,
+      handleExceeded,
+      actionURL
     };
   },
 });

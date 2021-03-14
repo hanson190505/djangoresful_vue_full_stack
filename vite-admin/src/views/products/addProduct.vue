@@ -144,11 +144,6 @@ export default defineComponent({
     const rules = {
       name: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
     };
-    const tempData = reactive({
-      tempKey: ['color', 'weight'],
-      tempValue: ['102c', '10g'],
-    });
-    const moreMap = new Map();
     function receiveIsNewSelected(params: number) {
       formData.is_new = params;
     }
@@ -191,7 +186,6 @@ export default defineComponent({
       rules,
       receiveImageData,
       addImage,
-      tempData,
       submitLoading
     };
   },

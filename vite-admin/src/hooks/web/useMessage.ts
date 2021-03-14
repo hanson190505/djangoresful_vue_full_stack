@@ -1,25 +1,32 @@
-import { ElMessage } from 'element-plus';
+import { ElNotification } from 'element-plus';
 
 function createSuccessMessage(msg: string): void {
-  ElMessage.success({
+  ElNotification({
     message: msg,
-    type: 'success',
-  });
+    type: 'success'
+  })
 }
 
 function createWarningMessage(msg: string): void {
-  ElMessage.warning({
+  ElNotification({
     message: msg,
     type: 'warning',
   });
 }
 
 function createInfoMessage(msg: string) {
-  ElMessage(msg);
+  ElNotification({
+    message: msg,
+    type: 'info'
+  });
 }
 
 function createErrorMessage(msg: string) {
-  ElMessage.error(msg);
+  ElNotification({
+    message: msg,
+    type:'error',
+    duration: 0
+  });
 }
 
 export function useMessage() {

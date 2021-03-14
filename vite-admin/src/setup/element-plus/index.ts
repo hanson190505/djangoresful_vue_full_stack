@@ -30,6 +30,7 @@ import {
   ElCascader,
   ElDrawer,
   ElPopconfirm,
+  ElCard
 } from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 
@@ -62,7 +63,8 @@ let components = [
   ElTag,
   ElCascader,
   ElDrawer,
-  ElPopconfirm
+  ElPopconfirm,
+  ElCard,
 ];
 const plugins = [ElLoading];
 

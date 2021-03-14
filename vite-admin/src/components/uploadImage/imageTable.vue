@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+    <el-row>
     <el-col :span="18">
       <el-table
         :data="tableData"
@@ -43,42 +43,24 @@
           </template>
         </el-table-column>
         <el-table-column prop="url" label="URL"></el-table-column>
-        <!-- <el-table-column prop="tag" label="标签" width="50">
-          <template #default="scope">
-            <el-tag :type="scope.row.uplaodState" disable-transitions>{{
-              scope.row.uplaodState === 'danger' ? 'failed' : 'success'
-            }}</el-tag>
-          </template>
-        </el-table-column> -->
       </el-table>
     </el-col>
     <el-col :span="6">
-      <!-- <el-image
-        style="width: 300px; height: 300px"
-        :src="imageUrl"
-        :preview-src-list="srcList"
-      >
-      </el-image -->
       <img class="pr-img" :src="imageUrl" alt="" />
     </el-col>
   </el-row>
-  <el-dialog v-model="display" width="30%">
-    <manual-uplaod @receiveFileUrl="receiveFileUrl"></manual-uplaod>
-  </el-dialog>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref, onUnmounted } from 'vue';
-import mySelect from './select/mySelect.vue';
+import mySelect from '@/components/select/mySelect.vue';
 import { IImageModel } from '@/views/upload/image';
-import ManualUplaod from './uploadImage/manualUplaod.vue';
 import { zipObject } from 'lodash-es';
 
 export default defineComponent({
-  components: { mySelect, ManualUplaod },
-  name: 'addImage',
-  emits: ['receiveImageData'],
-  setup(props, { emit }) {
+  components: { mySelect },
+  name:'imageTable',
+  setup () {
     const tableData = <IImageModel[]>reactive([]);
     const imageUrl = ref('');
     const srcList = reactive(['']);
@@ -107,16 +89,13 @@ export default defineComponent({
     }
     function sendImageData() {
       let keys = <string[]>[]
-      tableData.forEach((el, index)=>{
-        if (typeof el.owner === 'undefined') {
-          keys.push("public"+index.toString())
-        }else{
-          keys.push(el.owner+index.toString())
-        }
+      tableData.forEach(el=>{
+        keys.push(el.owner)
       })
       let data = zipObject(keys, tableData)
       emit('receiveImageData', data);
     }
+
     return {
       tableData,
       imageUrl,
@@ -130,16 +109,11 @@ export default defineComponent({
       display,
       receiveFileUrl,
       sendImageData,
-    };
-  },
-});
+    }
+  }
+})
 </script>
 
 <style scoped>
-.pr-img {
-  border: 1px solid rgb(17, 151, 223);
-  width: 300px;
-  height: 300px;
-  padding: 2px;
-}
+
 </style>
