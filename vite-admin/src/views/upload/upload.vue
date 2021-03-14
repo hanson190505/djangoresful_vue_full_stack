@@ -10,12 +10,14 @@
       :limit="5"
       :on-exceed="handleExceed"
       :file-list="fileList"
+      :before-upload="beforeUpload"
     >
       <el-button size="small" type="primary">点击上传</el-button>
       <template #tip>
         <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
       </template>
     </el-upload>
+    <img :src="imageUrl" alt="">
   </div>
 </template>
 
@@ -28,6 +30,7 @@ export default defineComponent({
     const env = useGlobSetting();
     const uploadURL = ref(env.apiUrl + env.urlPrefix + env.uploadUrl);
     const fileList = reactive([]);
+    const imageUrl = ref('')
     const handlePreview = (file, fileList) => {
       console.log(file, fileList);
     };
@@ -35,12 +38,17 @@ export default defineComponent({
       console.log(file);
     };
     const handleExceed = (files, fileList) => {};
+    const beforeUpload = (file)=>{
+      imageUrl.value =  window.URL.createObjectURL(file)
+    }
     return {
       handlePreview,
       handleRemove,
       handleExceed,
       fileList,
       uploadURL,
+      imageUrl,
+      beforeUpload
     };
   },
 });

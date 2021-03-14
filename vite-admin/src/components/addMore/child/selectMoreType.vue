@@ -32,13 +32,13 @@
 import { defineComponent,ref,reactive } from 'vue'
 import {cloneDeep}  from 'lodash-es';
 
-interface IMoreDict {
-  key:[string]
-  value:[string]
+export interface IMoreDict {
+  key:string[]
+  value:string[]
 }
 export interface IselectMoreTypeForm {
   label: string
-  element: string | [string|number] |  number | IMoreDict
+  element: string | [] |  number | IMoreDict
   span:number
   type: string
 }
