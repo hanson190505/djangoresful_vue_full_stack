@@ -7,7 +7,7 @@
       v-loading="loading"
     >
       <el-form-item label="产品名称">
-        {{ data.product }}
+        {{ JSON.stringify(data.product) }}
       </el-form-item>
     </el-form>
   </div>

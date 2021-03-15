@@ -10,7 +10,7 @@
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="产品类型">
-            <el-input v-model="formData.category"></el-input>
+            <product-category></product-category>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -83,7 +83,9 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="供应商">
-            <el-input v-model="formData.provider"></el-input>
+            <provider-select
+              @receiveProviderId="receiveProviderId"
+            ></provider-select>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -142,16 +144,24 @@ color json material select mutipl custom_log json
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { IProduct } from './models';
-import { postProduct } from './product';
 import { useMessage } from '@/hooks/web/useMessage';
 import mySelect from '@/components/select/mySelect.vue';
 import AddImage from '@/components/addImage.vue';
 import { IImageModel } from '../upload/image';
 import MultipleSelect from '@/components/select/multipleSelect.vue';
 import AddMore from '@/components/addMore/addMore.vue';
+import ProductCategory from '@/views/category/productCategory.vue';
+import ProviderSelect from '../provider/providerSelect.vue';
 
 export default defineComponent({
-  components: { mySelect, AddImage, MultipleSelect, AddMore },
+  components: {
+    mySelect,
+    AddImage,
+    MultipleSelect,
+    AddMore,
+    ProductCategory,
+    ProviderSelect,
+  },
   name: 'addProduct',
   setup() {
     const { createSuccessMessage, createErrorMessage } = useMessage();
@@ -178,6 +188,9 @@ export default defineComponent({
     }
     function receiveImageData(data: IImageModel) {
       formData.image = data;
+    }
+    function receiveProviderId(id: number) {
+      formData.provider = id;
     }
     function handelMaterialSeleted(params: string[]) {
       formData.material = params.toString();
@@ -234,6 +247,7 @@ export default defineComponent({
       addColorMore,
       addLogMore,
       addOtherMore,
+      receiveProviderId,
     };
   },
 });

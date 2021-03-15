@@ -30,7 +30,7 @@ import {
   ElCascader,
   ElDrawer,
   ElPopconfirm,
-  ElCard
+  ElCard,
 } from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 

@@ -17,6 +17,7 @@ export interface IRouteMeta {
   currentActiveMenu?: string;
   hideTab?: boolean;
   hideMenu?: boolean;
+  parent?: string;
 }
 
 // @ts-ignore

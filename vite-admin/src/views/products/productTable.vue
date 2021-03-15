@@ -54,6 +54,9 @@ export default defineComponent({
         meta: {
           title: '',
           ignoreAuth: false,
+          parent: '',
+          transitionName: '',
+          id: 0,
         },
         name: '',
         path: '',
@@ -65,6 +68,9 @@ export default defineComponent({
       route.data.meta = {
         title: row.row.number,
         ignoreAuth: false,
+        parent: 'product',
+        transitionName: 'productDetail',
+        id: id,
       };
       route.data.name = row.row.number;
       route.data.path = '/product' + '/' + id;

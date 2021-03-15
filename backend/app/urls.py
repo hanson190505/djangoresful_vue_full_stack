@@ -16,6 +16,8 @@ Including another URLconf
 from django.urls import path, include
 from product.views import CategoryViewSet, ProductViewSet
 from rest_framework import routers
+
+from purchase.views import ProviderViewSet
 from upload.views import UploadFile, ImageViewSet
 from user.views import UserView, UserRegisterView, UserViewSet, MyTokenObtainPairView, MyTokenRefreshView
 
@@ -24,6 +26,7 @@ router.register('category', CategoryViewSet)
 router.register('product', ProductViewSet)
 router.register('image', ImageViewSet)
 router.register('user', UserViewSet)
+router.register('provider', ProviderViewSet)
 
 urlpatterns = [
     path('api/v1/', include(router.urls)),

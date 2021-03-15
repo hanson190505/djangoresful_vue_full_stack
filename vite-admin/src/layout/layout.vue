@@ -66,23 +66,6 @@ export default defineComponent({
       handleAddTab(route, editTabValue, panes);
     }
     provide('addTab', addTab);
-    // const addTab = (route: IAppRouteRecordRaw) => {
-    //   // editTabValue.value = route.name as string;
-    //   setEditTab(route.name);
-    //   editTabValue.value = route.name;
-    //   if (panes.tabs.length > 0) {
-    //     let tempList = panes.tabs.filter((item: IAppRouteRecordRaw) => {
-    //       return item.name === route.name;
-    //     });
-    //     if (tempList.length === 0) {
-    //       panes.tabs.push(route);
-    //       setTab(panes.tabs);
-    //     }
-    //   } else {
-    //     panes.tabs.push(route);
-    //     setTab(panes.tabs);
-    //   }
-    // };
     const removeTab = (targetName: string) => {
       if (targetName === editTabValue.value) {
         panes.tabs.forEach((item: IAppRouteRecordRaw, index) => {
@@ -105,8 +88,36 @@ export default defineComponent({
       }
     };
     const tabClick = (tab) => {
-      router.push({ name: tab.props.name });
-      setEditTab(tab.props.name);
+      let tabs = getTab();
+      if (tabs) {
+        tabs.forEach((item) => {
+          if (item.meta.parent && editTabValue !== item.meta.title) {
+            console.log(item);
+            router.push({
+              name: item.meta.transitionName,
+              params: { id: item.meta.id },
+            });
+          } else {
+            router.replace({ name: tab.props.name });
+            setEditTab(tab.props.name);
+          }
+        });
+      }
+      // console.log(router.currentRoute);
+      // if (tab.name !== editTabValue.value) {
+      //   console.log(router);
+      //   console.log(tab);
+      //   console.log(editTabValue.value);
+      //   if (router.currentRoute.value.meta.parent) {
+      //     console.log('点了');
+      //     router.replace({ name: tab.props.name });
+      //   }
+      // } else {
+      //   // router.push({ name: tab.props.name });
+      //   router.replace({ name: tab.props.name });
+      //   setEditTab(tab.props.name);
+      // }
+      // router.push({ name: tab.props.name });
     };
     // 刷新当前页面
     function changeRouteActive() {
