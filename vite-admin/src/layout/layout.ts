@@ -1,5 +1,6 @@
 import { IAppRouteRecordRaw, IMenu } from '@/router/types';
 import { Ref } from 'vue';
+import { baseMenu } from '@/router/routes/index';
 
 const storage = window.localStorage;
 
@@ -57,4 +58,16 @@ export function handleAddTab(
     panes.tabs.push(route);
     setTab(panes.tabs);
   }
+}
+
+export function getBaseRoute(menus = baseMenu) {
+  let _names = [] as string[];
+  menus.forEach((item) => {
+    if (item.route) {
+      item.route.forEach((el) => {
+        _names.push(el.name);
+      });
+    }
+  });
+  return _names;
 }

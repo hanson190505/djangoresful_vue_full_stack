@@ -48,6 +48,7 @@ import {
   getEditTab,
   removeTabs,
   handleAddTab,
+  getBaseRoute,
 } from './layout';
 
 export default defineComponent({
@@ -89,19 +90,9 @@ export default defineComponent({
     };
     const tabClick = (tab) => {
       let tabs = getTab();
+      let menuName = getBaseRoute();
       if (tabs) {
-        tabs.forEach((item) => {
-          if (item.meta.parent && editTabValue !== item.meta.title) {
-            console.log(item);
-            router.push({
-              name: item.meta.transitionName,
-              params: { id: item.meta.id },
-            });
-          } else {
-            router.replace({ name: tab.props.name });
-            setEditTab(tab.props.name);
-          }
-        });
+        //得到侧边导航栏的所有路由,对比tab
       }
       // console.log(router.currentRoute);
       // if (tab.name !== editTabValue.value) {
