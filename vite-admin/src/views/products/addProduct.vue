@@ -100,8 +100,28 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-row>
+        <el-form-item label="颜色">
+          <add-more
+            @receiveColor="receiveColor"
+            :owner="'color'"
+            ref="addColorMore"
+          ></add-more>
+        </el-form-item>
+      </el-row>
+      <el-form-item label="定制log">
+        <add-more
+          @receiveLog="receiveLog"
+          :owner="'log'"
+          ref="addLogMore"
+        ></add-more>
+      </el-form-item>
       <el-form-item label="其他属性">
-        <add-more></add-more>
+        <add-more
+          @receiveMore="receiveMore"
+          :owner="'more'"
+          ref="addOtherMore"
+        ></add-more>
       </el-form-item>
       <el-form-item label="图片">
         <add-image
@@ -110,9 +130,9 @@
         ></add-image>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submit" :loading="submitLoading"
-          >{{loading?'提交中...':'提交'}}</el-button
-        >
+        <el-button type="primary" @click="submit" :loading="submitLoading">{{
+          loading ? '提交中...' : '提交'
+        }}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -135,8 +155,11 @@ export default defineComponent({
   name: 'addProduct',
   setup() {
     const { createSuccessMessage, createErrorMessage } = useMessage();
+    const addColorMore = ref();
+    const addLogMore = ref();
+    const addOtherMore = ref();
     let loading = ref(false);
-    let submitLoading = ref(false)
+    let submitLoading = ref(false);
     const addImage = ref();
     const formData = <IProduct>reactive({
       image: {},
@@ -160,20 +183,38 @@ export default defineComponent({
       formData.material = params.toString();
     }
     function submit() {
-      addImage.value.sendImageData();
-      loading.value = true;
-      submitLoading.value = true
-      postProduct(formData)
-        .then((res) => {
-          loading.value = false;
-          submitLoading.value = false;
-          createSuccessMessage('提交成功');
-        })
-        .catch((err) => {
-          loading.value = false;
-          submitLoading.value = true
-          createErrorMessage('提交失败');
-        });
+      addColorMore.value.sendMoreData();
+      addLogMore.value.sendMoreData();
+      addOtherMore.value.sendMoreData();
+      if (
+        formData.color !== undefined &&
+        formData.custom_log !== undefined &&
+        formData.more !== undefined
+      ) {
+        // addImage.value.sendImageData();
+        // // loading.value = true;
+        // submitLoading.value = true;
+        // postProduct(formData)
+        //   .then((res) => {
+        //     loading.value = false;
+        //     submitLoading.value = false;
+        //     createSuccessMessage('提交成功');
+        //   })
+        //   .catch((err) => {
+        //     loading.value = false;
+        //     submitLoading.value = true;
+        //     createErrorMessage('提交失败');
+        //   });
+      }
+    }
+    function receiveColor(data) {
+      formData.color = data;
+    }
+    function receiveLog(data) {
+      formData.custom_log = data;
+    }
+    function receiveMore(data) {
+      formData.more = data;
     }
     return {
       submit,
@@ -186,7 +227,13 @@ export default defineComponent({
       rules,
       receiveImageData,
       addImage,
-      submitLoading
+      submitLoading,
+      receiveColor,
+      receiveLog,
+      receiveMore,
+      addColorMore,
+      addLogMore,
+      addOtherMore,
     };
   },
 });

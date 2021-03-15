@@ -1,0 +1,14 @@
+{
+  "color":{
+        "value": "102c",
+        "desc": "pantone"
+  },
+  "weight":{
+        "value": "10",
+        "desc": "g"
+  },
+  "size":{
+        "value": "10X10X10",
+        "dwsc": "mm"
+  }
+}
