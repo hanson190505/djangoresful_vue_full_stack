@@ -6,7 +6,6 @@
     :background-color="backgroundColor"
     :text-color="textColor"
     :active-text-color="activeTextColor"
-    :router="true"
   >
     <el-submenu :index="menu.name" v-for="menu in menus" :key="menu.name">
       <template #title>

@@ -10,9 +10,9 @@ from rest_framework.viewsets import ModelViewSet
 from upload.models import Image
 from upload.serializer import ImageSerializer
 
-ACCESS_KEY_ID = os.getenv('ACCESS_KEY_ID')
-ACCESS_SECRET = os.getenv('ACCESS_SECRET')
-auth = oss2.Auth(ACCESS_KEY_ID, ACCESS_SECRET)
+# ACCESS_KEY_ID = os.getenv('ACCESS_KEY_ID')
+# ACCESS_SECRET = os.getenv('ACCESS_SECRET')
+auth = oss2.Auth('ACCESS_KEY_ID', 'ACCESS_SECRET')
 endpoint = 'http://oss-us-west-1.aliyuncs.com'
 bucket = oss2.Bucket(auth, endpoint, 'coteam')  # 项目名称
 base_file_url = 'https://silicone-factory.cn/'

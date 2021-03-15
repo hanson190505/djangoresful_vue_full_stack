@@ -27,7 +27,7 @@
       background
       layout="prev, pager, next"
       :total="total"
-      :page-size="2"
+      :page-size="20"
     >
     </el-pagination>
   </div>
@@ -63,6 +63,7 @@ export default defineComponent({
       },
     });
     const addTab = inject('addTab');
+    //TODO: 打开产品详情之后，切换tab出错
     const checkProduct = (row) => {
       let id = row.row.id;
       route.data.meta = {
@@ -75,7 +76,7 @@ export default defineComponent({
       route.data.name = row.row.number;
       route.data.path = '/product' + '/' + id;
       addTab(route.data);
-      router.push({ name: 'productDetail', params: { id: id } });
+      router.replace({ name: 'productDetail', params: { id: id } });
       store.dispatch('product/setProductID', id);
     };
     const handleCurrentChange = (val: number) => {

@@ -148,19 +148,19 @@ import { useMessage } from '@/hooks/web/useMessage';
 import mySelect from '@/components/select/mySelect.vue';
 import AddImage from '@/components/addImage.vue';
 import { IImageModel } from '../upload/image';
-import MultipleSelect from '@/components/select/multipleSelect.vue';
 import AddMore from '@/components/addMore/addMore.vue';
 import ProductCategory from '@/views/category/productCategory.vue';
 import ProviderSelect from '../provider/providerSelect.vue';
+import multipleSelect from '@/components/select/multipleSelect.vue';
 
 export default defineComponent({
   components: {
     mySelect,
     AddImage,
-    MultipleSelect,
     AddMore,
     ProductCategory,
     ProviderSelect,
+    multipleSelect,
   },
   name: 'addProduct',
   setup() {

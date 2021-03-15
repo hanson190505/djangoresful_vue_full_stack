@@ -13,7 +13,7 @@
       <product-category @receivePid="receivePid"></product-category>
     </el-form-item>
     <el-form-item label="目录">
-      <el-input v-model="categoryForm.name"></el-input>
+      <el-input v-model="categoryForm.name" clearable></el-input>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit" :loading="submitLoading">{{

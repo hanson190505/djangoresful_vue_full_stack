@@ -65,6 +65,14 @@ export default defineComponent({
     let isRouteActive = ref(true);
     function addTab(route: IAppRouteRecordRaw) {
       handleAddTab(route, editTabValue, panes);
+      if (route.meta?.parent) {
+        router.replace({
+          name: route.meta.transitionName,
+          params: { id: route.meta.id },
+        });
+      } else {
+        router.replace({ name: route.name });
+      }
     }
     provide('addTab', addTab);
     const removeTab = (targetName: string) => {
@@ -90,25 +98,24 @@ export default defineComponent({
     };
     const tabClick = (tab) => {
       let tabs = getTab();
+      let name = tab.props.name;
       let menuName = getBaseRoute();
       if (tabs) {
-        //得到侧边导航栏的所有路由,对比tab
+        if (menuName.indexOf(name) === -1) {
+          let _r = tabs.find((el) => {
+            return el.name === name;
+          });
+          console.log(_r);
+          router.replace({
+            name: _r.meta.transitionName,
+            params: { id: _r.meta.id },
+          });
+          setEditTab(tab.props.name);
+        } else {
+          router.replace({ name: tab.props.name });
+          setEditTab(tab.props.name);
+        }
       }
-      // console.log(router.currentRoute);
-      // if (tab.name !== editTabValue.value) {
-      //   console.log(router);
-      //   console.log(tab);
-      //   console.log(editTabValue.value);
-      //   if (router.currentRoute.value.meta.parent) {
-      //     console.log('点了');
-      //     router.replace({ name: tab.props.name });
-      //   }
-      // } else {
-      //   // router.push({ name: tab.props.name });
-      //   router.replace({ name: tab.props.name });
-      //   setEditTab(tab.props.name);
-      // }
-      // router.push({ name: tab.props.name });
     };
     // 刷新当前页面
     function changeRouteActive() {

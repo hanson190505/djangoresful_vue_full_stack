@@ -43,7 +43,6 @@ export function handleAddTab(
   editTabValue: Ref,
   panes: any
 ) {
-  // editTabValue.value = route.name as string;
   setEditTab(route.name);
   editTabValue.value = route.name;
   if (panes.tabs.length > 0) {

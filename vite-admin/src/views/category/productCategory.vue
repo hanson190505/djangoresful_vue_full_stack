@@ -35,7 +35,9 @@ export default defineComponent({
       options.data = transformCategory(_data);
     }
     function handleChange(val) {
-      emit('receivePid', (category.value = val[val.length - 1]));
+      if (val) {
+        emit('receivePid', (category.value = val[val.length - 1]));
+      }
     }
     function handleVisibleChange(params: boolean) {
       if (params) {

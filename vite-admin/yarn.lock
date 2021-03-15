@@ -920,10 +920,10 @@ duplexer3@^0.1.4:
   resolved "https://registry.npm.taobao.org/duplexer3/download/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
   integrity sha1-7gHdHKwO08vH/b6jfcCo8c4ALOI=
 
-element-plus@^1.0.2-beta.32:
-  version "1.0.2-beta.34"
-  resolved "https://registry.npm.taobao.org/element-plus/download/element-plus-1.0.2-beta.34.tgz?cache=0&sync_timestamp=1615556174582&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Felement-plus%2Fdownload%2Felement-plus-1.0.2-beta.34.tgz#19b1fb8adb2408a852dd11e2d409e20195f09d4f"
-  integrity sha1-GbH7itskCKhS3RHi1AniAZXwnU8=
+element-plus@^1.0.2-beta.35:
+  version "1.0.2-beta.35"
+  resolved "https://registry.npm.taobao.org/element-plus/download/element-plus-1.0.2-beta.35.tgz#158890bddf28f8495f261d02789bf394c5c97123"
+  integrity sha1-FYiQvd8o+ElfJh0CeJvzlMXJcSM=
   dependencies:
     "@popperjs/core" "^2.4.4"
     async-validator "^3.4.0"
