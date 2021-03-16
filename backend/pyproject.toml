@@ -19,6 +19,8 @@ psycopg2-binary = "^2.8.6"
 djangorestframework-simplejwt = "^4.6.0"
 oss2 = "^2.14.0"
 django-cors-headers = "^3.7.0"
+django-filter = "^2.4.0"
+django-crispy-forms = "^1.11.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^4.6"
