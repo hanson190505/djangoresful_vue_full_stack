@@ -24,8 +24,8 @@
             <!-- {{ item.name }} -->
           </el-tab-pane>
         </el-tabs>
-        <router-view v-slot="{ Component }" v-if="isRouteActive">
-          <keep-alive exclude="productDetail">
+        <router-view v-slot="{ Component }">
+          <keep-alive>
             <component :is="Component" />
           </keep-alive>
         </router-view>
@@ -35,7 +35,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, nextTick, provide } from 'vue';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  nextTick,
+  provide,
+  onMounted,
+} from 'vue';
 import SideMenu from './sideMenu.vue';
 import menuHeader from './header.vue';
 import { menuStyle } from '@/style';
@@ -47,7 +54,6 @@ import {
   setEditTab,
   getEditTab,
   removeTabs,
-  handleAddTab,
   getBaseRoute,
 } from './layout';
 
@@ -58,20 +64,45 @@ export default defineComponent({
     const { backgroundColor, color } = menuStyle;
     let editTabValue = ref(getEditTab());
     let panes = reactive({
-      tabs: getTab() as IAppRouteRecordRaw[],
+      tabs: [],
     });
     const currentComp = ref('');
     const router = useRouter();
     let isRouteActive = ref(true);
     function addTab(route: IAppRouteRecordRaw) {
-      handleAddTab(route, editTabValue, panes);
       if (route.meta?.parent) {
+        if (
+          panes.tabs.some((el) => {
+            return el.isActive;
+          })
+        ) {
+          panes.tabs = panes.tabs.filter((el) => {
+            return !el.isActive;
+          });
+        }
         router.replace({
           name: route.meta.transitionName,
           params: { id: route.meta.id },
         });
+        editTabValue.value = route.name;
+        setEditTab(route.name);
+        panes.tabs.push(route);
+        setTab(panes.tabs);
       } else {
-        router.replace({ name: route.name });
+        if (
+          panes.tabs.some((el) => {
+            return el.name === route.name;
+          })
+        ) {
+          setEditTab(route.name);
+        } else {
+          setEditTab(route.name);
+          panes.tabs.push(route);
+          setTab(panes.tabs);
+        }
+        router.replace({ name: route.name }).then(() => {
+          editTabValue.value = route.name;
+        });
       }
     }
     provide('addTab', addTab);
@@ -105,7 +136,6 @@ export default defineComponent({
           let _r = tabs.find((el) => {
             return el.name === name;
           });
-          console.log(_r);
           router.replace({
             name: _r.meta.transitionName,
             params: { id: _r.meta.id },
@@ -129,13 +159,28 @@ export default defineComponent({
     function clearTabs() {
       panes.tabs = [];
       removeTabs();
-      router.push({ path: '/' });
+      router.replace({ name: 'dashboard' });
     }
     provide('clearTabs', clearTabs);
     const headerStyle = {
       backgroundColor: backgroundColor,
       color: color,
     };
+    //刷新页面时,移除所有子目录
+    function removeChildRoute() {
+      let _tabs = getTab();
+      if (_tabs) {
+        let _l = _tabs.filter((item) => {
+          return !item.isActive;
+        });
+        return _l;
+      } else {
+        return [];
+      }
+    }
+    onMounted(() => {
+      panes.tabs = getTab();
+    });
     return {
       headerStyle,
       addTab,

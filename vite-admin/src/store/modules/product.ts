@@ -15,3 +15,7 @@ export const ProductModule = {
     },
   },
 };
+
+export enum EProductDispatch {
+  SET_PRODUCT_ID = 'product/setProductID',
+}

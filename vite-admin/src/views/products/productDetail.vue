@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, computed, onMounted, reactive, ref } from 'vue';
-import { getProductById } from './product';
+import { getProductById, getProductIDStorage } from './product';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -28,8 +28,14 @@ export default defineComponent({
       product: {},
     });
     const getData = async () => {
+      let _id = 0;
+      if (id.value) {
+        _id = id.value;
+      } else {
+        _id = getProductIDStorage();
+      }
       loading.value = true;
-      data.product = await getProductById(id.value);
+      data.product = await getProductById(_id);
       loading.value = false;
     };
     onMounted(() => {

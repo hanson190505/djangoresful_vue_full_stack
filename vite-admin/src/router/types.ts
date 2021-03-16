@@ -18,6 +18,7 @@ export interface IRouteMeta {
   hideTab?: boolean;
   hideMenu?: boolean;
   parent?: string;
+  id?: number;
 }
 
 // @ts-ignore
@@ -29,6 +30,7 @@ export interface IAppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta'> {
   children?: IAppRouteRecordRaw[];
   props?: Recordable;
   fullPath?: string;
+  isActive?: boolean;
 }
 
 export interface IMenuTag {

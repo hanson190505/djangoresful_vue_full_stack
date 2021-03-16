@@ -35,9 +35,10 @@
 
 <script lang="ts">
 import { defineComponent, inject, onMounted, reactive, ref, unref } from 'vue';
-import { getProductsAPI } from './product';
+import { getProductsAPI, setProductIDStorage } from './product';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { EProductDispatch } from '@/store/modules/product';
 
 export default defineComponent({
   name: 'productTable',
@@ -54,12 +55,13 @@ export default defineComponent({
         meta: {
           title: '',
           ignoreAuth: false,
-          parent: '',
-          transitionName: '',
+          parent: 'product',
+          transitionName: 'productDetail',
           id: 0,
         },
         name: '',
         path: '',
+        isActive: true,
       },
     });
     const addTab = inject('addTab');
@@ -75,8 +77,10 @@ export default defineComponent({
       };
       route.data.name = row.row.number;
       route.data.path = '/product' + '/' + id;
+      route.data.isActive = true;
       addTab(route.data);
-      router.replace({ name: 'productDetail', params: { id: id } });
+      store.dispatch(EProductDispatch.SET_PRODUCT_ID, id);
+      setProductIDStorage(id);
       store.dispatch('product/setProductID', id);
     };
     const handleCurrentChange = (val: number) => {

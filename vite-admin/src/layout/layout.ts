@@ -43,20 +43,28 @@ export function handleAddTab(
   editTabValue: Ref,
   panes: any
 ) {
-  setEditTab(route.name);
-  editTabValue.value = route.name;
-  if (panes.tabs.length > 0) {
-    let tempList = panes.tabs.filter((item: IAppRouteRecordRaw) => {
-      return item.name === route.name;
-    });
-    if (tempList.length === 0) {
-      panes.tabs.push(route);
-      setTab(panes.tabs);
-    }
-  } else {
-    panes.tabs.push(route);
-    setTab(panes.tabs);
-  }
+  // setEditTab(route.name);
+  // editTabValue.value = route.name;
+  // let promise = new Promise((resolve, reject) => {
+  //   if (panes.tabs.length > 0) {
+  //     let tempList = panes.tabs.filter((item: IAppRouteRecordRaw) => {
+  //       return item.name === route.name;
+  //     });
+  //     if (tempList.length === 0) {
+  //       panes.tabs.push(route);
+  //       setTab(panes.tabs);
+  //       resolve(route);
+  //     }
+  //   } else {
+  //     console.log(route);
+  //     panes.tabs.push(route);
+  //     setTab(panes.tabs);
+  //     resolve(route);
+  //   }
+  //   console.log(route);
+  //   reject();
+  // });
+  // return promise;
 }
 
 export function getBaseRoute(menus = baseMenu) {

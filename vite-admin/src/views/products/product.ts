@@ -28,3 +28,14 @@ export function getProductById(id: number) {
     method: 'GET',
   });
 }
+
+export function setProductIDStorage(id: number) {
+  window.localStorage.setItem('productID', id.toString());
+}
+
+export function getProductIDStorage(): number | undefined {
+  let _id = window.localStorage.getItem('productID');
+  if (_id) {
+    return parseInt(_id);
+  }
+}
