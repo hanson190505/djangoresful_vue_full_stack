@@ -101,6 +101,25 @@ export const baseMenu: IMenu[] = [
       },
     ],
   },
+  {
+    name: 'Tool',
+    icon: 'el-icon-s-tools',
+    roles: RoleEnum.GENERAL,
+    meta: {
+      title: '工具管理',
+    },
+    route: [
+      {
+        path: '/color/',
+        name: 'color',
+        meta: {
+          ignoreAuth: false,
+          title: '颜色管理',
+        },
+        component: dynamicImport(dynamicViewsModules, 'color'),
+      },
+    ],
+  },
 ];
 
 // export function getRoutes(role: string): RouteRecordRaw[] {

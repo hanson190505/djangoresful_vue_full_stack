@@ -33,6 +33,15 @@
             ></my-select>
           </template>
         </el-table-column>
+        <el-table-column prop="site" label="site" width="120">
+          <template #default="scope">
+            <el-input
+              v-model="scope.row.site"
+              placeholder="site"
+              clearable
+            ></el-input>
+          </template>
+        </el-table-column>
         <el-table-column prop="alt" label="Alt">
           <template #default="scope">
             <el-input
@@ -106,15 +115,15 @@ export default defineComponent({
       tableData.push(params);
     }
     function sendImageData() {
-      let keys = <string[]>[]
-      tableData.forEach((el, index)=>{
+      let keys = <string[]>[];
+      tableData.forEach((el, index) => {
         if (typeof el.owner === 'undefined') {
-          keys.push("public"+index.toString())
-        }else{
-          keys.push(el.owner+index.toString())
+          keys.push('public' + index.toString());
+        } else {
+          keys.push(el.owner + index.toString());
         }
-      })
-      let data = zipObject(keys, tableData)
+      });
+      let data = zipObject(keys, tableData);
       emit('receiveImageData', data);
     }
     return {

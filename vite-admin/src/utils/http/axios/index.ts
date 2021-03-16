@@ -83,7 +83,7 @@ const transform: AxiosTransform = {
     return config;
   },
   requestInterceptors: (config) => {
-    if (config.path === '/token/') {
+    if (config.path === '/token/' || config.path === '/register/') {
       return config;
     }
     const { access, refresh } = getToken() as IToken;

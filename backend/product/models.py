@@ -29,8 +29,6 @@ class Product(MixModel):
     custom_log = models.JSONField(null=True)
 
 
-class ProductToolData(MixModel):
-    color = models.JSONField(null=True)
-    material = models.JSONField(null=True)
-    capacity = models.JSONField(null=True)
+class ProductTools(MixModel):
+    tool = models.CharField(max_length=64, null=True)
 

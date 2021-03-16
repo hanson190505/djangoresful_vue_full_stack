@@ -1,5 +1,5 @@
 <template>
-    <el-row>
+  <el-row>
     <el-col :span="18">
       <el-table
         :data="tableData"
@@ -33,6 +33,9 @@
             ></my-select>
           </template>
         </el-table-column>
+        <el-table-column prop="site" label="site" width="120">
+          <el-input v-model="table.data.site" clearable></el-input>
+        </el-table-column>
         <el-table-column prop="alt" label="Alt">
           <template #default="scope">
             <el-input
@@ -59,8 +62,8 @@ import { zipObject } from 'lodash-es';
 
 export default defineComponent({
   components: { mySelect },
-  name:'imageTable',
-  setup () {
+  name: 'imageTable',
+  setup() {
     const tableData = <IImageModel[]>reactive([]);
     const imageUrl = ref('');
     const srcList = reactive(['']);
@@ -88,11 +91,11 @@ export default defineComponent({
       tableData.push(params);
     }
     function sendImageData() {
-      let keys = <string[]>[]
-      tableData.forEach(el=>{
-        keys.push(el.owner)
-      })
-      let data = zipObject(keys, tableData)
+      let keys = <string[]>[];
+      tableData.forEach((el) => {
+        keys.push(el.owner);
+      });
+      let data = zipObject(keys, tableData);
       emit('receiveImageData', data);
     }
 
@@ -109,11 +112,9 @@ export default defineComponent({
       display,
       receiveFileUrl,
       sendImageData,
-    }
-  }
-})
+    };
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

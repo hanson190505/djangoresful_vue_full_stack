@@ -166,18 +166,6 @@ export default defineComponent({
       backgroundColor: backgroundColor,
       color: color,
     };
-    //刷新页面时,移除所有子目录
-    function removeChildRoute() {
-      let _tabs = getTab();
-      if (_tabs) {
-        let _l = _tabs.filter((item) => {
-          return !item.isActive;
-        });
-        return _l;
-      } else {
-        return [];
-      }
-    }
     onMounted(() => {
       panes.tabs = getTab();
     });

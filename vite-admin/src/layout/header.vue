@@ -49,7 +49,7 @@ export default defineComponent({
       removeEditTab();
       store.state.user.token = {};
       route.replace({
-        path: (redirect as string) || 'login',
+        name: 'login',
       });
     };
     return {
