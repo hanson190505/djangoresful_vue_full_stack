@@ -81,87 +81,88 @@ export default defineComponent({
       colors.forEach((el) => {
         if (el.value.startsWith('0')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[0].children.push(tmp);
-        }
-        if (el.value.startsWith('1')) {
+        } else if (el.value.startsWith('1')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[1].children.push(tmp);
-        }
-        if (el.value.startsWith('2')) {
+        } else if (el.value.startsWith('2')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[2].children.push(tmp);
-        }
-        if (el.value.startsWith('3')) {
+        } else if (el.value.startsWith('3')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[3].children.push(tmp);
-        }
-        if (el.value.startsWith('4')) {
+        } else if (el.value.startsWith('4')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[4].children.push(tmp);
-        }
-        if (el.value.startsWith('5')) {
+        } else if (el.value.startsWith('5')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[5].children.push(tmp);
-        }
-        if (el.value.startsWith('6')) {
+        } else if (el.value.startsWith('6')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[6].children.push(tmp);
-        }
-        if (el.value.startsWith('7')) {
+        } else if (el.value.startsWith('7')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[7].children.push(tmp);
-        }
-        if (el.value.startsWith('8')) {
+        } else if (el.value.startsWith('8')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[8].children.push(tmp);
-        }
-        if (el.value.startsWith('9')) {
+        } else if (el.value.startsWith('9')) {
           let tmp = {
-            value: el.value,
-            table: el.html_color,
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
           };
           _obj.children[9].children.push(tmp);
+        } else {
+          let tmp = {
+            value: [el.value, el.html_color],
+            label: el.value,
+            web: el.html_color,
+          };
+          _obj.children[10].children.push(tmp);
         }
-        console.log(_obj);
-        let tmp = {
-          value: el.value,
-          table: el.html_color,
-        };
-        _obj.children[10].children.push(tmp);
       });
 
       return _obj;
     }
     function uploadColor() {
       uploadColorData = transformColor(colorValue);
-      console.log(uploadColorData);
       defHttp.post({
         url: EApiPath.TOOLS,
         data: {

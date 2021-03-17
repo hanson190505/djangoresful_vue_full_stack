@@ -65,7 +65,6 @@ export default defineComponent({
       },
     });
     const addTab = inject('addTab');
-    //TODO: 打开产品详情之后，切换tab出错
     const checkProduct = (row) => {
       let id = row.row.id;
       route.data.meta = {

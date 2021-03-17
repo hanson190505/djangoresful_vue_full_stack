@@ -76,7 +76,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="0">
-        <el-col :span="6">
+        <el-col :span="12">
           <el-form-item label="尺寸">
             <el-input v-model="formData.size"></el-input>
           </el-form-item>
@@ -93,22 +93,16 @@
             <el-input v-model="formData.brand"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="材质">
-            <multiple-select
-              :optType="'materialOptions'"
-              @receiveSelected="handelMaterialSeleted"
-            ></multiple-select>
-          </el-form-item>
-        </el-col>
       </el-row>
       <el-row>
+        <el-form-item label="材质">
+          <multiple-select
+            :optType="'materialOptions'"
+            @receiveSelected="handelMaterialSeleted"
+          ></multiple-select>
+        </el-form-item>
         <el-form-item label="颜色">
-          <add-more
-            @receiveColor="receiveColor"
-            :owner="'color'"
-            ref="addColorMore"
-          ></add-more>
+          <color-select @receiveColor="receiveColor"></color-select>
         </el-form-item>
       </el-row>
       <el-form-item label="定制log">
@@ -142,7 +136,7 @@
 color json material select mutipl custom_log json
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, reactive, ref, provide } from 'vue';
 import { IProduct } from './models';
 import { useMessage } from '@/hooks/web/useMessage';
 import mySelect from '@/components/select/mySelect.vue';
@@ -152,6 +146,8 @@ import AddMore from '@/components/addMore/addMore.vue';
 import ProductCategory from '@/views/category/productCategory.vue';
 import ProviderSelect from '../provider/providerSelect.vue';
 import multipleSelect from '@/components/select/multipleSelect.vue';
+import ColorSelect from '../tool/colorSelect.vue';
+import { postProduct } from './product';
 
 export default defineComponent({
   components: {
@@ -161,11 +157,11 @@ export default defineComponent({
     ProductCategory,
     ProviderSelect,
     multipleSelect,
+    ColorSelect,
   },
   name: 'addProduct',
   setup() {
     const { createSuccessMessage, createErrorMessage } = useMessage();
-    const addColorMore = ref();
     const addLogMore = ref();
     const addOtherMore = ref();
     let loading = ref(false);
@@ -196,7 +192,6 @@ export default defineComponent({
       formData.material = params.toString();
     }
     function submit() {
-      addColorMore.value.sendMoreData();
       addLogMore.value.sendMoreData();
       addOtherMore.value.sendMoreData();
       if (
@@ -204,20 +199,20 @@ export default defineComponent({
         formData.custom_log !== undefined &&
         formData.more !== undefined
       ) {
-        // addImage.value.sendImageData();
-        // // loading.value = true;
-        // submitLoading.value = true;
-        // postProduct(formData)
-        //   .then((res) => {
-        //     loading.value = false;
-        //     submitLoading.value = false;
-        //     createSuccessMessage('提交成功');
-        //   })
-        //   .catch((err) => {
-        //     loading.value = false;
-        //     submitLoading.value = true;
-        //     createErrorMessage('提交失败');
-        //   });
+        addImage.value.sendImageData();
+        // loading.value = true;
+        submitLoading.value = true;
+        postProduct(formData)
+          .then((res) => {
+            loading.value = false;
+            submitLoading.value = false;
+            createSuccessMessage('提交成功');
+          })
+          .catch((err) => {
+            loading.value = false;
+            submitLoading.value = true;
+            createErrorMessage('提交失败');
+          });
       }
     }
     function receiveColor(data) {
@@ -241,13 +236,12 @@ export default defineComponent({
       receiveImageData,
       addImage,
       submitLoading,
-      receiveColor,
       receiveLog,
       receiveMore,
-      addColorMore,
       addLogMore,
       addOtherMore,
       receiveProviderId,
+      receiveColor,
     };
   },
 });
