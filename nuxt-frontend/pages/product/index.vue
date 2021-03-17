@@ -1,7 +1,12 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="3" v-for="(item, index) in data.results" :key="index">
+      <b-col
+        columns
+        cols="3"
+        v-for="(item, index) in data.results"
+        :key="index"
+      >
         <nuxt-link :to="'/product/' + item.id">
           <b-card
             :title="item.name"
@@ -19,6 +24,13 @@
         </nuxt-link>
       </b-col>
     </b-row>
+    <div class="overflow-auto">
+      <b-pagination-nav
+        :link-gen="linkGen"
+        :number-of-pages="10"
+        use-router
+      ></b-pagination-nav>
+    </div>
     {{ data }}
   </div>
 </template>
@@ -35,10 +47,18 @@ export default Vue.extend({
       product: []
     };
   },
-  methods: {},
+  methods: {
+    linkGen(pageNum) {
+      return {
+        path: "/product/",
+        params: { page: pageNum }
+      };
+    }
+  },
   async asyncData({ app }) {
-    const data = await app.$axios.$get("http://127.0.0.1:8000/api/v1/product");
-    return { data };
+    const data = await app.$axios.$get("/product/");
+    let pageTotal = data.count;
+    return { data, pageTotal };
   }
 });
 </script>
